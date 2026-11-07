@@ -1,24 +1,47 @@
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
 import { buttonVariants } from '@/components/ui/button';
 
+const NAV_LINK = buttonVariants({ variant: 'ghost', className: 'font-semibold' });
+const ACTIVE_NAV_LINK = {
+  className: 'underline decoration-olympic-blue decoration-2 underline-offset-4',
+};
+
+// Les cinq couleurs olympiques en bande sous l'en-tête : les couleurs, pas l'emblème.
+const OLYMPIC_BAND = [
+  'bg-olympic-blue',
+  'bg-olympic-yellow',
+  'bg-olympic-black',
+  'bg-olympic-green',
+  'bg-olympic-red',
+];
+
 function RootLayout() {
   return (
-    <div className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 p-6">
-      <header className="flex items-center justify-between gap-4">
-        <Link to="/" className="text-lg font-semibold">
-          JOJ Dakar 2026
-        </Link>
-        <nav className="flex gap-2">
+    <div className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-4 pt-4 sm:px-6 sm:pt-6">
+      <header className="flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-4">
           <Link
-            to="/disciplines"
-            className={buttonVariants({ variant: 'ghost' })}
-            activeProps={{ className: 'underline' }}
+            to="/"
+            className="font-display text-3xl leading-none font-extrabold tracking-tight uppercase"
           >
-            Disciplines
+            Dakar 2026
           </Link>
-        </nav>
+          <nav className="flex gap-1">
+            <Link to="/chat" className={NAV_LINK} activeProps={ACTIVE_NAV_LINK}>
+              Chatbot
+            </Link>
+            <Link to="/disciplines" className={NAV_LINK} activeProps={ACTIVE_NAV_LINK}>
+              Disciplines
+            </Link>
+          </nav>
+        </div>
+        <div aria-hidden="true" className="flex h-1">
+          {OLYMPIC_BAND.map((color) => (
+            <span key={color} className={`flex-1 ${color}`} />
+          ))}
+        </div>
       </header>
-      <main className="flex flex-col gap-6">
+      <main className="flex flex-1 flex-col gap-6 pb-6">
         <Outlet />
       </main>
     </div>

@@ -2,9 +2,10 @@
  * La fausse API tient le même contrat que apps/api : si elle s'en écarte, les tests du front
  * passent contre une API qui n'existe pas. Ces tests l'appellent avec `fetch`, sans React.
  */
+import { chatResponseSchema } from '@joj/shared';
 import { describe, expect, it } from 'vitest';
 import { mockControl } from './control';
-import { lutte, natation, UNKNOWN_ID } from './fixture';
+import { askEventTimeReply, fixture, lutte, natation, placesReply, UNKNOWN_ID } from './fixture';
 
 const call = (path: string, init: RequestInit = {}) =>
   fetch(`http://localhost${path}`, {
@@ -95,6 +96,48 @@ describe('mock disciplines API', () => {
       expect(await response.json()).toMatchObject({ code: 'DISCIPLINE_NOT_FOUND' });
     },
   );
+});
+
+describe('mock chat API', () => {
+  const ask = (messages: unknown) =>
+    call('/api/chat', { method: 'POST', body: json({ messages }) });
+
+  it('001-AS10: answers with the reply, the places and the missing info of the fixture', async () => {
+    const response = await ask([{ role: 'user', content: 'Je suis à Diamniadio, match à 17 h' }]);
+    expect(response.status).toBe(200);
+    expect(chatResponseSchema.parse(await response.json())).toEqual(placesReply);
+  });
+
+  it('answers with the reply a test puts in the fixture', async () => {
+    fixture.chatReply = askEventTimeReply;
+    const response = await ask([{ role: 'user', content: 'Je suis à Diamniadio' }]);
+    expect(await response.json()).toEqual(askEventTimeReply);
+  });
+
+  it('001-AS11: rejects a blank message with a 400 VALIDATION_FAILED problem', async () => {
+    const response = await ask([{ role: 'user', content: '   ' }]);
+    expect(response.status).toBe(400);
+    expect(await response.json()).toMatchObject({
+      code: 'VALIDATION_FAILED',
+      errors: [expect.objectContaining({ path: 'messages.0.content' })],
+    });
+  });
+
+  it('001-AS8: answers 422 EVENT_TIME_PASSED when mockControl arms it', async () => {
+    mockControl.failNext('POST /api/chat', 422, 'EVENT_TIME_PASSED');
+    const response = await ask([{ role: 'user', content: 'Mon épreuve était à 10 h' }]);
+    expect(response.status).toBe(422);
+    expect(response.headers.get('content-type')).toContain('application/problem+json');
+    expect(await response.json()).toMatchObject({ status: 422, code: 'EVENT_TIME_PASSED' });
+  });
+
+  it('001-AS9: answers 503 ASSISTANT_UNAVAILABLE when mockControl arms it', async () => {
+    mockControl.failNext('POST /api/chat', 503, 'ASSISTANT_UNAVAILABLE');
+    const response = await ask([{ role: 'user', content: 'Bonjour' }]);
+    expect(response.status).toBe(503);
+    expect(response.headers.get('content-type')).toContain('application/problem+json');
+    expect(await response.json()).toMatchObject({ status: 503, code: 'ASSISTANT_UNAVAILABLE' });
+  });
 });
 
 describe('mockControl', () => {

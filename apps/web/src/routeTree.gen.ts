@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as DisciplinesIndexRouteImport } from './routes/disciplines.index'
 import { Route as DisciplinesDisciplineIdRouteImport } from './routes/disciplines.$disciplineId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DisciplinesIndexRoute = DisciplinesIndexRouteImport.update({
@@ -31,30 +37,35 @@ const DisciplinesDisciplineIdRoute = DisciplinesDisciplineIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/disciplines/$disciplineId': typeof DisciplinesDisciplineIdRoute
   '/disciplines/': typeof DisciplinesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/disciplines/$disciplineId': typeof DisciplinesDisciplineIdRoute
   '/disciplines': typeof DisciplinesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/disciplines/$disciplineId': typeof DisciplinesDisciplineIdRoute
   '/disciplines/': typeof DisciplinesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/disciplines/$disciplineId' | '/disciplines/'
+  fullPaths: '/' | '/chat' | '/disciplines/$disciplineId' | '/disciplines/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/disciplines/$disciplineId' | '/disciplines'
-  id: '__root__' | '/' | '/disciplines/$disciplineId' | '/disciplines/'
+  to: '/' | '/chat' | '/disciplines/$disciplineId' | '/disciplines'
+  id:
+    '__root__' | '/' | '/chat' | '/disciplines/$disciplineId' | '/disciplines/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChatRoute: typeof ChatRoute
   DisciplinesDisciplineIdRoute: typeof DisciplinesDisciplineIdRoute
   DisciplinesIndexRoute: typeof DisciplinesIndexRoute
 }
@@ -66,6 +77,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/disciplines/': {
@@ -87,6 +105,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChatRoute: ChatRoute,
   DisciplinesDisciplineIdRoute: DisciplinesDisciplineIdRoute,
   DisciplinesIndexRoute: DisciplinesIndexRoute,
 }

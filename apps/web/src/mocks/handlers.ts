@@ -1,4 +1,5 @@
 import {
+  chatRequestSchema,
   createDisciplineSchema,
   type DisciplineResponse,
   type ProblemDetails,
@@ -19,7 +20,9 @@ const TITLES: Record<number, string> = {
   400: 'Bad Request',
   404: 'Not Found',
   409: 'Conflict',
+  422: 'Unprocessable Entity',
   500: 'Internal Server Error',
+  503: 'Service Unavailable',
 };
 
 function problem(
@@ -44,8 +47,8 @@ function problem(
 /** Latence, puis panne armée par `mockControl` : renvoie la réponse d'erreur, ou `null`. */
 async function gate(method: string, path: string): Promise<Response | null> {
   if (mockControl.latency > 0) await delay(mockControl.latency);
-  const status = mockControl.takeFailure(`${method} ${path}`);
-  return status === null ? null : problem(status, 'INTERNAL_ERROR', 'Mocked failure.');
+  const failure = mockControl.takeFailure(`${method} ${path}`);
+  return failure === null ? null : problem(failure.status, failure.code, 'Mocked failure.');
 }
 
 function validationFailed(error: z.ZodError) {
@@ -122,5 +125,15 @@ export const handlers = [
     if (!findDiscipline(id)) return notFound(id);
     fixture.disciplines = fixture.disciplines.filter((d) => d.id !== id);
     return new HttpResponse(null, { status: 204 });
+  }),
+
+  // Le chatbot ne comprend pas la phrase ici : il répond `fixture.chatReply`. Les refus de l'API
+  // (EVENT_TIME_PASSED, ASSISTANT_UNAVAILABLE) s'arment avec `mockControl.failNext`.
+  http.post('*/api/chat', async ({ request }) => {
+    const failure = await gate('POST', '/api/chat');
+    if (failure) return failure;
+    const parsed = chatRequestSchema.safeParse(await request.json());
+    if (!parsed.success) return validationFailed(parsed.error);
+    return HttpResponse.json(fixture.chatReply);
   }),
 ];

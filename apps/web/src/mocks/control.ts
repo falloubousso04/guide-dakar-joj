@@ -5,12 +5,18 @@ import { resetFixture } from './fixture';
  * exister, un état d'erreur a besoin d'une panne : une fausse API qui répond toujours tout de
  * suite et sans erreur rend ces deux états impossibles à tester.
  */
+/** Une panne armée : le statut HTTP et le code d'erreur de la réponse problem+json. */
+export interface MockFailure {
+  status: number;
+  code: string;
+}
+
 const state = {
   latency: 0,
   /** Une panne, consommée par la première requête qui la lit. */
-  failures: new Map<string, number>(),
+  failures: new Map<string, MockFailure>(),
   /** Une panne qui dure jusqu'au `reset()` : le serveur est tombé. */
-  persistentFailures: new Map<string, number>(),
+  persistentFailures: new Map<string, MockFailure>(),
 };
 
 export const mockControl = {
@@ -23,18 +29,21 @@ export const mockControl = {
     state.latency = ms;
   },
 
-  /** La prochaine requête vers `path` (`GET /api/disciplines`) échoue, puis tout repart. */
-  failNext(path: string, status = 500): void {
-    state.failures.set(path, status);
+  /**
+   * La prochaine requête vers `path` (`GET /api/disciplines`) échoue, puis tout repart. Le code
+   * simule un refus précis de l'API (`failNext('POST /api/chat', 503, 'ASSISTANT_UNAVAILABLE')`).
+   */
+  failNext(path: string, status = 500, code = 'INTERNAL_ERROR'): void {
+    state.failures.set(path, { status, code });
   },
 
   /** Toutes les requêtes vers `path` échouent, jusqu'au `reset()`. */
-  failPersistently(path: string, status = 500): void {
-    state.persistentFailures.set(path, status);
+  failPersistently(path: string, status = 500, code = 'INTERNAL_ERROR'): void {
+    state.persistentFailures.set(path, { status, code });
   },
 
-  /** Lu par les handlers : le statut de la panne armée pour `path`, ou `null`. */
-  takeFailure(path: string): number | null {
+  /** Lu par les handlers : la panne armée pour `path`, ou `null`. */
+  takeFailure(path: string): MockFailure | null {
     const persistent = state.persistentFailures.get(path);
     if (persistent !== undefined) return persistent;
     const once = state.failures.get(path);
