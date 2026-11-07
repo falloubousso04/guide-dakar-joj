@@ -1,5 +1,7 @@
 # PRD — Guide de Dakar entre deux épreuves
 
+**Auteur** : Fallou Bousso
+
 **Statut** : Brouillon
 
 ## Problème

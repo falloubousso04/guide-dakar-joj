@@ -18,12 +18,12 @@ Chaque membre du groupe a écrit sa propre proposition de PRD (Product Requireme
 
 | Fichier | Auteur |
 | --- | --- |
-| [prds/fallou.md](prds/fallou.md) | Fallou |
+| [prds/prd-fallou-bousso.md](prds/prd-fallou-bousso.md) | Fallou Bousso |
 
 ## Ajouter ta proposition
 
 1. Accepte l'invitation au dépôt, puis clone-le : `git clone https://github.com/falloubousso04/guide-dakar-joj.git`.
-2. Copie ton PRD dans `prds/<ton-prenom>.md` (en minuscules, sans accent).
+2. Copie ton PRD dans `prds/prd-<prenom>-<nom>.md` (en minuscules, sans accent), avec une ligne `**Auteur** : <Prénom Nom>` sous le titre.
 3. Ajoute une ligne pour toi dans le tableau ci-dessus.
 4. Commite et pousse : `git add prds README.md`, `git commit -m "docs(prd): add <prenom> proposal"`, puis `git pull --rebase` et `git push`.
 
