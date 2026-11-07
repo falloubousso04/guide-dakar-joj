@@ -22,6 +22,9 @@ Un fichier n'appartient qu'à une partie. Si tu as besoin de changer un fichier 
 - `packages/shared/src/chat.ts`, `packages/shared/src/places.ts`, et leur export dans `packages/shared/src/index.ts`
 - `apps/api/src/modules/chat/application/tourist-assistant.ts` : le port (classe abstraite)
 - `apps/api/src/modules/chat/application/testing/fake-tourist-assistant.ts` : le faux, utilisé par tous les tests
+- `apps/api/src/modules/chat/application/reachable-places.ts` : le port des lieux faisables, implémenté par la partie B
+- `apps/api/src/modules/chat/domain/chat.errors.ts` : les erreurs `EVENT_TIME_PASSED` et `ASSISTANT_UNAVAILABLE`
+- `apps/api/src/core/errors/` : la catégorie `UNAVAILABLE` (503)
 - `apps/api/src/modules/chat/infra/claude-tourist-assistant.ts` : l'implémentation avec le SDK Claude, et ses instructions (prompt)
 - `apps/api/src/core/config/` (lecture de `ANTHROPIC_API_KEY`), `apps/api/.env.example`
 - `apps/api/package.json` et `pnpm-lock.yaml` : seule la partie A ajoute une dépendance, le SDK `@anthropic-ai/sdk`
@@ -35,7 +38,7 @@ Un fichier n'appartient qu'à une partie. Si tu as besoin de changer un fichier 
 **C — API du chatbot (`taphsirabdoulaye-source`)**
 
 - `apps/api/src/modules/chat/application/use-cases/answer-chat-message.ts` : le cas d'usage
-- `apps/api/src/modules/chat/domain/**` : les erreurs du chatbot (`AppError`)
+- `apps/api/src/modules/chat/application/clock.ts` : le port `Clock`, qui fixe l'heure dans les tests
 - `apps/api/src/modules/chat/http/chat.controller.ts`, `apps/api/src/modules/chat/chat.module.ts`
 - `apps/api/src/app.module.ts` : C ajoute **les deux** modules, `ChatModule` et `PlacesModule`
 - `apps/api/test/chat.e2e.spec.ts`
@@ -141,11 +144,17 @@ export abstract class TouristAssistant {
 
 La réponse de Claude ne choisit jamais les lieux : elle reçoit la liste de `FindReachablePlaces` et la présente.
 
-**Le cas d'usage des lieux** (`places/application/use-cases/find-reachable-places.ts`), entre B et C :
+**Le port des lieux faisables** (`chat/application/reachable-places.ts`, écrit par A), entre B et C. B l'implémente avec `FindReachablePlaces`, exporté par `PlacesModule` ; C le reçoit par injection et le remplace par un faux dans ses tests :
 
 ```ts
-// Un lieu est retenu si now + trajet aller + visite + trajet retour <= eventTime. Tri : retour le plus tôt d'abord.
-execute(input: { site: OlympicSite; now: Date; eventTime: Date }): Promise<PlaceSuggestion[]>;
+export abstract class ReachablePlaces {
+  // Un lieu est retenu si now + trajet aller + visite + trajet retour <= eventTime. Tri : retour le plus tôt d'abord.
+  abstract find(input: {
+    site: OlympicSite;
+    now: Date;
+    eventTime: Date;
+  }): Promise<PlaceSuggestion[]>;
+}
 ```
 
 ## Dans quel ordre
