@@ -18,6 +18,8 @@ const STATUS_BY_KIND: Record<ErrorKind, HttpStatus> = {
   NOT_FOUND: HttpStatus.NOT_FOUND,
   CONFLICT: HttpStatus.CONFLICT,
   BUSINESS_RULE: HttpStatus.UNPROCESSABLE_ENTITY,
+  // Un service externe (l'IA) n'a pas répondu : le client peut réessayer.
+  UNAVAILABLE: HttpStatus.SERVICE_UNAVAILABLE,
 };
 
 const INTERNAL_DETAIL = 'An unexpected error occurred.';

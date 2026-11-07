@@ -11,7 +11,21 @@ class SampleError extends AppError<'SAMPLE_TAKEN'> {
   }
 }
 
+class UnavailableError extends AppError<'SAMPLE_UNAVAILABLE'> {
+  constructor() {
+    super('SAMPLE_UNAVAILABLE', 'UNAVAILABLE', 'Sample service did not answer');
+  }
+}
+
 describe('toProblem', () => {
+  it('001-AS9: maps UNAVAILABLE to 503, with its code and detail', () => {
+    expect(toProblem(new UnavailableError())).toMatchObject({
+      status: 503,
+      code: 'SAMPLE_UNAVAILABLE',
+      detail: 'Sample service did not answer',
+    });
+  });
+
   it('maps an AppError by its kind, with its code and details', () => {
     expect(toProblem(new SampleError())).toEqual({
       type: 'urn:problem-type:sample-taken',
