@@ -51,7 +51,7 @@ export function ChatPage() {
             Que faire avant votre épreuve ?
           </h1>
         </div>
-        <GuideMascot className="size-24 shrink-0 sm:size-32" />
+        <GuideMascot className="size-36 shrink-0 sm:size-56" />
         <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1.5 bg-joj-lime" />
       </section>
       {entries.length === 0 && <ChatWelcome onPick={send} />}

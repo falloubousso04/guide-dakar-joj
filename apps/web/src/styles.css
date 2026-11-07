@@ -208,12 +208,16 @@
   clip-path: polygon(0 0, calc(100% - 1.25rem) 0, 100% 1.25rem, 100% 100%, 0 100%);
 }
 
-/* Fond de page : un voile vert puis rouge, très clair, pour que le texte noir reste lisible. */
+/* Fond de page : le dégradé vert puis rouge du bandeau. Le contenu reste sur un panneau blanc, lisible. */
 @layer base {
   body {
-    background-image:
-      radial-gradient(ellipse at 0% 0%, rgb(0 166 81 / 0.12) 0%, rgb(0 166 81 / 0) 55%),
-      radial-gradient(ellipse at 100% 100%, rgb(238 51 78 / 0.1) 0%, rgb(238 51 78 / 0) 55%);
+    background-color: var(--joj-green-deep);
+    background-image: linear-gradient(
+      135deg,
+      var(--joj-green-deep) 0%,
+      var(--joj-green) 50%,
+      #c8283f 100%
+    );
     background-attachment: fixed;
   }
 }

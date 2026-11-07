@@ -17,7 +17,7 @@ const OLYMPIC_BAND = [
 
 function RootLayout() {
   return (
-    <div className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-4 pt-4 sm:px-6 sm:pt-6">
+    <div className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 bg-background px-4 pt-4 text-foreground shadow-2xl sm:my-8 sm:min-h-[calc(100vh-4rem)] sm:corner-cut sm:px-8 sm:pt-8">
       <header className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-4">
           <Link
