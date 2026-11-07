@@ -10,15 +10,24 @@ Des milliers de visiteurs et de supporters sont à Dakar pour les Jeux, souvent 
 
 Le groupe a retenu le PRD de Fallou Bousso : **[specs/prd-guide-dakar.md](specs/prd-guide-dakar.md)**. C'est le seul PRD du dépôt, et celui que lisent toutes les commandes de la méthode.
 
-Un supporter étranger indique le site olympique où il se trouve et l'heure de sa prochaine épreuve ; l'application lui propose seulement les lieux où l'aller, la visite et le retour tiennent avant cette heure.
+**Un chatbot de poche pour les supporters.** Le supporter écrit comme il parlerait à un habitant (« je suis à Diamniadio, mon match est à 17 h ») ; le chatbot lui répond avec les lieux où l'aller, la visite et le retour tiennent avant son épreuve, et lui demande ce qui manque. Claude comprend la phrase et rédige la réponse ; le choix des lieux reste une règle de temps appliquée par l'application.
 
-| Tranche | Ce qu'on livre                                                  | Spec | Pilote    | État    |
-| ------- | --------------------------------------------------------------- | ---- | --------- | ------- |
-| TR1     | Les lieux faisables dans le temps libre                         | 001  | à choisir | à faire |
-| TR2     | Une demande en langage courant, comprise par Claude             | 002  | à choisir | à faire |
-| TR3     | Ce qui se passe maintenant : les animations en cours ou à venir | 003  | à choisir | à faire |
+| Tranche | Ce qu'on livre                                                  | Spec | État    |
+| ------- | --------------------------------------------------------------- | ---- | ------- |
+| TR1     | Demander au chatbot quoi faire avant son épreuve                | 001  | à faire |
+| TR2     | Le chatbot tient compte des envies                              | 002  | à faire |
+| TR3     | Ce qui se passe maintenant : les animations en cours ou à venir | 003  | à faire |
 
-**Avant de commencer TR1**, le PRD est encore au statut `Brouillon` : le groupe tranche ensemble les trois questions ouvertes (heure de début, marge avant l'épreuve, horaires d'ouverture), puis Fallou le fait valider avec `/prd`. Personne ne lance `/spec` avant que le statut soit `Validé`.
+**Qui fait quoi** : TR1 est découpée en quatre parties, une par membre, chacune avec ses fichiers, ses contrats et le design de l'écran. Tout est dans **[ORGANISATION.md](ORGANISATION.md)** : lis-le avant de coder.
+
+| Partie | Personne                  | Quoi                                        |
+| ------ | ------------------------- | ------------------------------------------- |
+| A      | Fallou Bousso             | contrats, puis intégration de l'IA (Claude) |
+| B      | `yandeG-dev`              | les lieux et la règle de temps              |
+| C      | `taphsirabdoulaye-source` | l'API du chatbot                            |
+| D      | `aminousy`                | l'écran de discussion et son design         |
+
+**Avant de commencer TR1**, le PRD est au statut `Brouillon` : le groupe le relit avec la grille, puis Fallou le fait valider avec `/prd`. Personne ne lance `/spec` avant que le statut soit `Validé`.
 
 ## Démarrer
 
@@ -31,13 +40,13 @@ Un supporter étranger indique le site olympique où il se trouve et l'heure de 
 
 Ce dépôt contient la base du bootcamp : l'API, le front, les schémas partagés, les outils `tools/sdd`, les skills, le sous-agent `relecteur`, les hooks et le `CLAUDE.md` du projet. Les règles sont dans `specs/constitution.md`, la grille de relecture dans `task/GRILLE-RELECTURE.md`.
 
-**Une tranche à la fois, dans l'ordre.** Chaque tranche a un **pilote**, qui lance Claude et fait avancer la tranche, et des **relecteurs**, les autres membres. On change de pilote à chaque tranche.
+**Une tranche à la fois, dans l'ordre.** Le pilote de la tranche écrit la spec et le plan avec le groupe ; ensuite, chacun réalise sa tâche du plan sur sa propre branche (voir [ORGANISATION.md](ORGANISATION.md)). Pour TR1, le pilote est Fallou.
 
-1. **Branche** : le pilote part de `main` à jour et crée la branche de la tranche : `git switch main`, `git pull`, `git switch -c tr1-lieux-faisables`.
-2. **Spec** : `/clear`, puis `/spec TR1 <précisions>`. Le pilote pousse la branche et ouvre une pull request ; au moins un autre membre relit `spec.md` avec la grille avant que le pilote écrive « je valide ».
-3. **Plan** : `/spec-plan`, même relecture par un autre membre, puis « je valide ».
-4. **Code** : `/tdd-task`. Claude écrit chaque test d'abord et le voit échouer, puis fait un commit par tâche.
-5. **Fin** : `/converge`, puis `pnpm check` vert. Un autre membre relit la pull request et la fusionne dans `main`. Celui qui produit ne valide pas.
+1. **Spec et plan** : le pilote crée la branche `tr1-spec`, lance `/clear`, `/spec TR1 <précisions>`, puis `/spec-plan` en lui donnant `ORGANISATION.md`. Au moins un autre membre relit `spec.md` puis `plan.md` avec la grille avant chaque « je valide ». La pull request est fusionnée dans `main`.
+2. **Contrats** : le pilote réalise T01 (`/tdd-task T01`) et la fusionne dans `main`. Les autres attendent cette fusion.
+3. **Code en parallèle** : chacun part de `main` à jour, crée la branche de sa tâche, puis lance `/tdd-task T0n` avec son numéro. Claude écrit chaque test d'abord, le voit échouer, puis fait le commit.
+4. **Pull requests** : `pnpm check` vert, push, pull request vers `main`. Un autre membre la relit et la fusionne. Celui qui produit ne valide pas.
+5. **Fin** : le pilote lance `/converge` sur `main`, puis la démo avec `pnpm dev`.
 
 **Règles git du groupe**
 
