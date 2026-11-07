@@ -14,37 +14,37 @@ Des supporters étrangers, à Dakar pour la première fois, ont quelques heures 
 
 ## Proposition
 
-Le supporter indique le site olympique où il se trouve et l'heure de sa prochaine épreuve. L'application lui propose seulement les lieux où le trajet aller, la durée de visite et le trajet retour tiennent avant cette heure. Chaque lieu connaît son temps de trajet depuis chaque site olympique. Une règle de temps appliquée par l'application répond à la vraie peur du supporter, rater son épreuve, mieux qu'une liste de lieux qu'il devrait trier lui-même.
+Un **chatbot** de poche : le supporter lui écrit comme il parlerait à un habitant (« je suis à Diamniadio, mon match est à 17 h, j'ai envie de musique ») et le chatbot lui répond avec les lieux où l'aller, la visite et le retour tiennent avant son épreuve. S'il manque le site ou l'heure, le chatbot les lui demande. Une conversation convient mieux qu'un formulaire à quelqu'un qui ne connaît ni les noms des lieux ni les quartiers. L'IA comprend la phrase et rédige la réponse ; le choix des lieux reste une règle de temps appliquée par l'application, pour que le chatbot ne propose jamais un lieu qui fait rater l'épreuve.
 
 ## Mesure du succès
 
-Pendant la démo, un supporter libre de 11 h 30 à 17 h depuis un site reçoit seulement des lieux qui le ramènent avant 17 h, et un lieu trop loin n'est pas proposé.
+Pendant la démo, le supporter écrit « je suis à Diamniadio, il est 11 h 30, mon match est à 17 h » : le chatbot propose seulement des lieux qui le ramènent avant 17 h, et un lieu trop loin n'apparaît pas. S'il n'écrit pas l'heure de son match, le chatbot la lui demande.
 
 ## Tranches
 
-### TR1 — Les lieux faisables dans le temps libre
+### TR1 — Demander au chatbot quoi faire avant son épreuve
 
-Le supporter donne son site olympique et l'heure de fin de son temps libre ; il obtient les lieux qu'il peut visiter. Règle : un lieu n'est proposé que si trajet aller, durée de visite et trajet retour tiennent avant l'heure de fin.
+Le supporter discute avec le chatbot dans l'application web. Le chatbot comprend le site et l'heure de l'épreuve, demande ce qui manque, puis répond avec les lieux faisables. Règle : un lieu n'est proposé que si trajet aller, durée de visite et trajet retour tiennent avant l'heure de l'épreuve.
 
-### TR2 — Une demande en langage courant
+### TR2 — Le chatbot tient compte des envies
 
-Le supporter écrit sa demande comme il la dirait (« j'ai 3 h, j'aime la musique ») ; Claude en tire le site, l'heure et ses envies, et l'application propose les lieux faisables qui y correspondent. L'IA sert seulement à comprendre une phrase libre : les règles de temps restent appliquées par l'application.
+Le supporter dit ce qu'il aime (musique, culture, plage, artisanat) ; le chatbot propose d'abord les lieux faisables qui y correspondent, et le dit quand aucun ne correspond.
 
 ### TR3 — Ce qui se passe maintenant
 
-Les animations datées (concerts, fan zones) s'ajoutent aux lieux. Règle : une animation n'est proposée que si elle est en cours ou à venir pendant le temps libre, et que le supporter peut revenir à temps.
+Le chatbot propose aussi les animations datées (concerts, fan zones). Règle : une animation n'est proposée que si elle est en cours ou à venir pendant le temps libre, et que le supporter peut revenir à temps.
 
 ## Hors périmètre
 
 - La réservation et le paiement.
 - La carte et l'itinéraire pas à pas, y compris un service de cartes externe.
-- Les comptes des visiteurs.
+- Les comptes des visiteurs, et la mémoire d'une conversation d'une visite à l'autre.
 - Les langues autres que le français.
 
 ## Hypothèses et risques
 
-- Supposé : le temps libre commence au moment de la demande ; si le supporter doit pouvoir planifier à l'avance, TR1 prend aussi une heure de début.
-- Supposé : les temps de trajet enregistrés sont fixes ; un jour d'embouteillage ou de route fermée, un lieu proposé peut faire rater l'épreuve.
-- Supposé : aucune marge de sécurité n'est ajoutée au retour ; un supporter qui arrive pile à l'heure peut manquer l'entrée du site.
-- Supposé : les horaires d'ouverture des lieux ne sont pas vérifiés en TR1 ; un lieu fermé peut être proposé.
+- Supposé : si le supporter ne dit pas l'heure qu'il est, son temps libre commence au moment du message.
+- Supposé : les temps de trajet enregistrés sont fixes et aucune marge n'est ajoutée au retour ; un embouteillage ou une file d'entrée peut faire rater l'épreuve.
+- Supposé : les horaires d'ouverture ne sont pas vérifiés en TR1 ; un lieu fermé peut être proposé.
 - Supposé : les lieux sont des données de démonstration ; leur exactitude n'est pas garantie.
+- Risque : si l'IA est indisponible ou comprend mal, le chatbot doit le dire plutôt qu'inventer une réponse.
