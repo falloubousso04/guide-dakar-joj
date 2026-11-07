@@ -1,8 +1,38 @@
+import { useEffect, useState } from 'react';
+
 /**
- * Le personnage guide du chatbot : un dessin original (une bulle de dialogue qui salue),
- * pas la mascotte officielle des Jeux, qui est une marque protégée. Purement décoratif.
+ * Image facultative, présente seulement sur la machine qui fait la démo (ignorée par git) :
+ * la mascotte officielle des Jeux est une marque protégée, elle n'est pas publiée dans le dépôt.
  */
+const LOCAL_MASCOT = '/mascotte/ayo.png';
+
+/** La mascotte locale si son image existe sur cette machine, sinon le personnage guide original. */
 export function GuideMascot({ className }: { className?: string }) {
+  const [hasLocalMascot, setHasLocalMascot] = useState(false);
+
+  useEffect(() => {
+    const image = new Image();
+    image.onload = () => setHasLocalMascot(true);
+    image.src = LOCAL_MASCOT;
+    return () => {
+      image.onload = null;
+    };
+  }, []);
+
+  if (hasLocalMascot) {
+    return (
+      <img
+        src={LOCAL_MASCOT}
+        alt=""
+        className={`${className ?? ''} object-contain drop-shadow-lg motion-safe:animate-float`}
+      />
+    );
+  }
+  return <OriginalGuide className={className} />;
+}
+
+/** Le personnage guide original : une bulle de dialogue qui salue. Purement décoratif. */
+function OriginalGuide({ className }: { className?: string }) {
   return (
     <svg
       aria-hidden="true"

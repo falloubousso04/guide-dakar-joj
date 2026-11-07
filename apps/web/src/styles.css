@@ -201,6 +201,19 @@
 
 /* Bandeau d'accueil : dégradé vert du visuel JOJ, coin coupé comme les cadres de l'identité. */
 @utility joj-hero {
-  background: linear-gradient(135deg, var(--joj-green-deep) 0%, var(--joj-green) 70%);
+  /* Vert du visuel JOJ, avec un halo rouge du côté de la mascotte ; le texte reste sur le vert. */
+  background:
+    radial-gradient(circle at 100% 100%, rgb(238 51 78 / 0.85) 0%, rgb(238 51 78 / 0) 55%),
+    linear-gradient(135deg, var(--joj-green-deep) 0%, var(--joj-green) 70%);
   clip-path: polygon(0 0, calc(100% - 1.25rem) 0, 100% 1.25rem, 100% 100%, 0 100%);
+}
+
+/* Fond de page : un voile vert puis rouge, très clair, pour que le texte noir reste lisible. */
+@layer base {
+  body {
+    background-image:
+      radial-gradient(ellipse at 0% 0%, rgb(0 166 81 / 0.12) 0%, rgb(0 166 81 / 0) 55%),
+      radial-gradient(ellipse at 100% 100%, rgb(238 51 78 / 0.1) 0%, rgb(238 51 78 / 0) 55%);
+    background-attachment: fixed;
+  }
 }
