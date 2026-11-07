@@ -34,7 +34,7 @@ function RootLayout() {
         </div>
         <div aria-hidden="true" className="flex h-1">
           {OLYMPIC_BAND.map((color) => (
-            <span key={color} className={`flex-1 ${color}`} />
+            <span key={color} className={`flex-1 origin-left ${color} motion-safe:animate-band`} />
           ))}
         </div>
       </header>

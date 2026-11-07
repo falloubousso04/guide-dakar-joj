@@ -139,3 +139,68 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Le vert du visuel JOJ : assez foncé pour du texte blanc (contraste AA), le citron en accent seulement. */
+:root {
+  --joj-green-deep: #004d26;
+  --joj-green: #007a37;
+  --joj-lime: #b5e61d;
+}
+
+@theme {
+  --color-joj-green-deep: var(--joj-green-deep);
+  --color-joj-green: var(--joj-green);
+  --color-joj-lime: var(--joj-lime);
+  --animate-fade-up: fade-up 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-float: float 3.2s ease-in-out infinite;
+  --animate-wave: wave 2.4s ease-in-out infinite;
+  --animate-band: band 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+  @keyframes wave {
+    0%,
+    60%,
+    100% {
+      transform: rotate(0deg);
+    }
+    15%,
+    45% {
+      transform: rotate(-18deg);
+    }
+    30% {
+      transform: rotate(10deg);
+    }
+  }
+  @keyframes band {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
+/* Bandeau d'accueil : dégradé vert du visuel JOJ, coin coupé comme les cadres de l'identité. */
+@utility joj-hero {
+  background: linear-gradient(135deg, var(--joj-green-deep) 0%, var(--joj-green) 70%);
+  clip-path: polygon(0 0, calc(100% - 1.25rem) 0, 100% 1.25rem, 100% 100%, 0 100%);
+}

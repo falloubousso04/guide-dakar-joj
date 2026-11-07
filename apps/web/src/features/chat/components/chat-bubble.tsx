@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 /** Bulle du supporter : noire, à droite, coin coupé en haut à gauche et pointe en bas à droite. */
 export function UserBubble({ content }: { content: string }) {
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-end motion-safe:animate-fade-up">
       <div className="max-w-[85%] bubble-user bg-primary px-4 pt-3 pb-6 text-primary-foreground">
         <p className="sr-only">Vous :</p>
         <p className="break-words whitespace-pre-line">{content}</p>
@@ -15,7 +15,7 @@ export function UserBubble({ content }: { content: string }) {
 /** Bulle du chatbot : blanche bordée de bleu, à gauche, pointe en bas à gauche. */
 export function AssistantBubble({ children }: { children: ReactNode }) {
   return (
-    <div className="flex justify-start">
+    <div className="flex justify-start motion-safe:animate-fade-up">
       {/* Le bord est une ombre portée sur le parent : une bordure CSS serait coupée par clip-path. */}
       <div className="max-w-[85%] bubble-outline">
         <div className="bubble-assistant bg-background px-4 pt-3 pb-6">{children}</div>

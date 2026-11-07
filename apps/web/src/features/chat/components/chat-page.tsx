@@ -5,6 +5,7 @@ import { ErrorBubble, TypingIndicator } from './chat-bubble';
 import { ChatConversation, type ConversationEntry } from './chat-conversation';
 import { ChatInput } from './chat-input';
 import { ChatWelcome } from './chat-welcome';
+import { GuideMascot } from './guide-mascot';
 import { chatErrorMessage } from './error-message';
 
 export function ChatPage() {
@@ -41,9 +42,18 @@ export function ChatPage() {
   return (
     // `-mb-6` annule la marge basse de <main> : la zone de saisie colle au bas de l'écran.
     <div className="-mb-6 flex flex-1 flex-col gap-6">
-      <h1 className="font-display text-4xl leading-none font-extrabold tracking-tight uppercase sm:text-5xl">
-        Que faire avant votre épreuve ?
-      </h1>
+      <section className="joj-hero relative flex items-center gap-4 overflow-hidden px-5 py-6 text-white motion-safe:animate-fade-up sm:px-8">
+        <div className="flex flex-1 flex-col gap-2">
+          <p className="font-display text-sm font-bold tracking-[0.2em] text-joj-lime uppercase">
+            Ton guide de Dakar
+          </p>
+          <h1 className="font-display text-4xl leading-none font-extrabold tracking-tight uppercase sm:text-5xl">
+            Que faire avant votre épreuve ?
+          </h1>
+        </div>
+        <GuideMascot className="size-24 shrink-0 sm:size-32" />
+        <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1.5 bg-joj-lime" />
+      </section>
       {entries.length === 0 && <ChatWelcome onPick={send} />}
       <div className="flex flex-1 flex-col gap-4">
         <ChatConversation entries={entries} />

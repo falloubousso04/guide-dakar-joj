@@ -1,0 +1,41 @@
+/**
+ * Le personnage guide du chatbot : un dessin original (une bulle de dialogue qui salue),
+ * pas la mascotte officielle des Jeux, qui est une marque protégée. Purement décoratif.
+ */
+export function GuideMascot({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 120 120"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g className="origin-center motion-safe:animate-float">
+        {/* Le corps : une bulle à coin coupé, comme celles du chat. */}
+        <path d="M18 22 H90 L104 36 V82 H44 L28 98 V82 H18 Z" fill="#ffffff" />
+        {/* La casquette aux couleurs olympiques. */}
+        <path d="M30 22 Q61 2 92 22 Z" fill="#0081c8" />
+        <rect x="30" y="20" width="62" height="5" fill="#fcb131" />
+        {/* Les yeux et le sourire. */}
+        <circle cx="48" cy="48" r="5" fill="#000000" />
+        <circle cx="74" cy="48" r="5" fill="#000000" />
+        <circle cx="50" cy="46" r="1.6" fill="#ffffff" />
+        <circle cx="76" cy="46" r="1.6" fill="#ffffff" />
+        <path
+          d="M48 62 Q61 72 74 62"
+          stroke="#000000"
+          strokeWidth="4"
+          fill="none"
+          strokeLinecap="round"
+        />
+        <circle cx="40" cy="62" r="4" fill="#ee334e" opacity="0.55" />
+        <circle cx="82" cy="62" r="4" fill="#ee334e" opacity="0.55" />
+        {/* Le bras qui salue. */}
+        <g style={{ transformOrigin: '104px 60px' }} className="motion-safe:animate-wave">
+          <path d="M104 60 L114 44" stroke="#ffffff" strokeWidth="7" strokeLinecap="round" />
+          <circle cx="115" cy="41" r="5.5" fill="#b5e61d" />
+        </g>
+      </g>
+    </svg>
+  );
+}

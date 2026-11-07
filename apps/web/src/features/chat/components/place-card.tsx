@@ -14,8 +14,10 @@ const BANDS = [
 export function PlaceCard({ place, index }: { place: PlaceSuggestion; index: number }) {
   return (
     <li
+      // Les cartes apparaissent l'une après l'autre.
+      style={{ animationDelay: `${index * 90}ms` }}
       className={cn(
-        'flex corner-cut flex-col gap-3 border-l-[6px] bg-muted p-4 pr-6',
+        'flex corner-cut flex-col gap-3 border-l-[6px] bg-muted p-4 pr-6 transition-transform hover:-translate-y-0.5 motion-safe:animate-fade-up',
         BANDS[index % BANDS.length],
       )}
     >
