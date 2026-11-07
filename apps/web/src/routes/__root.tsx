@@ -30,9 +30,6 @@ function RootLayout() {
             <Link to="/chat" className={NAV_LINK} activeProps={ACTIVE_NAV_LINK}>
               Chatbot
             </Link>
-            <Link to="/disciplines" className={NAV_LINK} activeProps={ACTIVE_NAV_LINK}>
-              Disciplines
-            </Link>
           </nav>
         </div>
         <div aria-hidden="true" className="flex h-1">
