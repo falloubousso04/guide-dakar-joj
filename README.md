@@ -6,48 +6,47 @@ Projet de groupe de l'atelier C du bootcamp Claude Code, thème **Guide touristi
 
 Des milliers de visiteurs et de supporters sont à Dakar pour les Jeux, souvent pour la première fois. Entre deux épreuves, ils ont quelques heures devant eux et ne savent pas quoi faire, ni où : les animations sont annoncées un peu partout, et rien ne dit ce qui est proche, ce qui se passe maintenant, ou ce qui vaut le détour.
 
-## Où en est le projet
+## Notre produit
 
-Chaque membre du groupe a écrit sa propre proposition de PRD (Product Requirements Document : la vision du produit sur une page, découpée en tranches). Ce dépôt les rassemble pour :
+Le groupe a retenu le PRD de Fallou Bousso : **[specs/prd-guide-dakar.md](specs/prd-guide-dakar.md)**. C'est le seul PRD du dépôt, et celui que lisent toutes les commandes de la méthode.
 
-1. les comparer ;
-2. choisir la meilleure, ou les combiner ;
-3. obtenir **un PRD commun**, sur lequel le groupe construit l'application.
+Un supporter étranger indique le site olympique où il se trouve et l'heure de sa prochaine épreuve ; l'application lui propose seulement les lieux où l'aller, la visite et le retour tiennent avant cette heure.
 
-## Les propositions
+| Tranche | Ce qu'on livre                                                  | Spec | Pilote    | État    |
+| ------- | --------------------------------------------------------------- | ---- | --------- | ------- |
+| TR1     | Les lieux faisables dans le temps libre                         | 001  | à choisir | à faire |
+| TR2     | Une demande en langage courant, comprise par Claude             | 002  | à choisir | à faire |
+| TR3     | Ce qui se passe maintenant : les animations en cours ou à venir | 003  | à choisir | à faire |
 
-| Fichier                                                | Auteur        |
-| ------------------------------------------------------ | ------------- |
-| [prds/prd-fallou-bousso.md](prds/prd-fallou-bousso.md) | Fallou Bousso |
+**Avant de commencer TR1**, le PRD est encore au statut `Brouillon` : le groupe tranche ensemble les trois questions ouvertes (heure de début, marge avant l'épreuve, horaires d'ouverture), puis Fallou le fait valider avec `/prd`. Personne ne lance `/spec` avant que le statut soit `Validé`.
 
-## Ajouter ta proposition
+## Démarrer
 
-1. Accepte l'invitation au dépôt, puis clone-le : `git clone https://github.com/falloubousso04/guide-dakar-joj.git`.
-2. Copie le PRD que tu as écrit avec `/prd` dans ton fork (`specs/prd-<nom>.md`) dans `prds/prd-<prenom>-<nom>.md` (en minuscules, sans accent), avec une ligne `**Auteur** : <Prénom Nom>` sous le titre.
-3. Ajoute une ligne pour toi dans le tableau ci-dessus.
-4. Commite et pousse : `git add prds README.md`, `git commit -m "docs(prd): add <prenom> proposal"`, puis `git pull --rebase` et `git push`.
+1. Clone le dépôt : `git clone https://github.com/falloubousso04/guide-dakar-joj.git`, puis `cd guide-dakar-joj`.
+2. `pnpm install`, puis `pnpm exec lefthook install` (installe le hook de pré-commit).
+3. `pnpm check` doit être vert.
+4. Lance Claude Code à la racine du dépôt : il lit `CLAUDE.md` et les skills tout seul.
 
-Ne modifie pas le PRD d'un autre membre : les remarques se font en discussion, ou dans une issue.
+## Comment on travaille
 
-## Comparer les propositions
+Ce dépôt contient la base du bootcamp : l'API, le front, les schémas partagés, les outils `tools/sdd`, les skills, le sous-agent `relecteur`, les hooks et le `CLAUDE.md` du projet. Les règles sont dans `specs/constitution.md`, la grille de relecture dans `task/GRILLE-RELECTURE.md`.
 
-Pour chaque PRD, réponds aux cinq questions de la grille de relecture du bootcamp. Une seule réponse « non » suffit pour écarter une proposition ou la corriger :
+**Une tranche à la fois, dans l'ordre.** Chaque tranche a un **pilote**, qui lance Claude et fait avancer la tranche, et des **relecteurs**, les autres membres. On change de pilote à chaque tranche.
 
-1. **Le problème est celui de quelqu'un de précis** : on sait qui souffre, de quoi, et comment il fait aujourd'hui.
-2. **La proposition répond à ce problème-là**, et dit pourquoi elle plutôt qu'une autre ; pourquoi de l'IA, si elle en utilise.
-3. **Le succès se constate pendant la démo** : une action réussie, un chiffre, un refus.
-4. **La tranche 1 tient en 2 heures de code** : une ou deux règles métier, une action principale, et elle a de la valeur seule.
-5. **Le hors périmètre et les hypothèses sont écrits.**
+1. **Branche** : le pilote part de `main` à jour et crée la branche de la tranche : `git switch main`, `git pull`, `git switch -c tr1-lieux-faisables`.
+2. **Spec** : `/clear`, puis `/spec TR1 <précisions>`. Le pilote pousse la branche et ouvre une pull request ; au moins un autre membre relit `spec.md` avec la grille avant que le pilote écrive « je valide ».
+3. **Plan** : `/spec-plan`, même relecture par un autre membre, puis « je valide ».
+4. **Code** : `/tdd-task`. Claude écrit chaque test d'abord et le voit échouer, puis fait un commit par tâche.
+5. **Fin** : `/converge`, puis `pnpm check` vert. Un autre membre relit la pull request et la fusionne dans `main`. Celui qui produit ne valide pas.
 
-Le PRD commun retenu sera écrit avec `/prd` dans `specs/prd-guide-dakar.md`, puis validé : c'est lui que lisent `/spec`, `/spec-plan`, `/tdd-task` et `/converge`. Les propositions restent dans `prds/`, hors de `specs/`, pour que les skills ne voient que le PRD commun.
+**Règles git du groupe**
 
-## Travailler avec la méthode
+- On ne pousse jamais directement sur `main` : tout passe par une branche et une pull request relue.
+- Messages Conventional Commits : `feat(guide): T03 propose only reachable places (001-AS2)`, `docs(prd): …`. Jamais `--no-verify`.
+- `git pull --rebase` avant de pousser ; `pnpm check` vert avant de demander une relecture.
+- On ne modifie pas le PRD sans le groupe : une modification passe par `/prd <la modification>`, qui l'amende, et une nouvelle validation.
 
-Ce dépôt contient la base du bootcamp : l'API, le front, les schémas partagés, les outils `tools/sdd`, les skills (`/prd`, `/spec`, `/spec-plan`, `/tdd-task`, `/converge`), le sous-agent `relecteur`, les hooks et le `CLAUDE.md` du projet. Les règles sont dans `specs/constitution.md`, la grille de relecture dans `task/GRILLE-RELECTURE.md`.
-
-1. Après le clonage : `pnpm install`, puis `pnpm exec lefthook install` (installe le hook de pré-commit), puis `pnpm check` doit être vert.
-2. Lance Claude Code à la racine du dépôt : il lit `CLAUDE.md` et les skills tout seul.
-3. Une fonctionnalité suit le cycle `/prd` → `/spec TRn` → `/spec-plan` → `/tdd-task` → `/converge`, avec un « je valide » après chacune des trois premières.
+**Secrets** : la clé de l'API Claude (TR2) va seulement dans `apps/api/.env`, ignoré par git. Chacun utilise sa propre clé ; on ne la colle jamais dans une conversation, un commit ou une issue.
 
 ---
 
