@@ -9,6 +9,13 @@ describe('AppConfig', () => {
     expect(config.get('PGLITE_DATA_DIR')).toBe('.data/pglite');
   });
 
+  it('001-AS9: works without an API key for the chatbot, and reads it when given', () => {
+    expect(AppConfig.fromEnv({}).get('ANTHROPIC_API_KEY')).toBeUndefined();
+    expect(AppConfig.fromEnv({ ANTHROPIC_API_KEY: 'test-key' }).get('ANTHROPIC_API_KEY')).toBe(
+      'test-key',
+    );
+  });
+
   it('accepts a PostgreSQL URL', () => {
     const config = AppConfig.fromEnv({ DATABASE_URL: 'postgres://joj:joj@localhost:5432/joj' });
     expect(config.get('DATABASE_URL')).toBe('postgres://joj:joj@localhost:5432/joj');

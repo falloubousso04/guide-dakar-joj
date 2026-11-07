@@ -7,6 +7,8 @@ const envSchema = z.object({
   DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }).optional(),
   /** Dossier des données PGlite, relatif à apps/api ; `memory://` pour une base en mémoire. */
   PGLITE_DATA_DIR: z.string().min(1).default('.data/pglite'),
+  /** Clé de l'API Claude pour le chatbot. Absente : le chatbot répond ASSISTANT_UNAVAILABLE (503). */
+  ANTHROPIC_API_KEY: z.string().min(1).optional(),
 });
 
 export type Env = z.infer<typeof envSchema>;
