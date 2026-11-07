@@ -3,47 +3,65 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Thème JOJ Dakar 2026 (ORGANISATION.md) : noir sur blanc, les cinq couleurs olympiques en
+ * accents. Le jaune et le vert ne portent jamais de texte sur fond blanc (contraste trop faible) :
+ * ils servent de bordures, de pastilles et de fonds derrière du texte noir.
+ */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --olympic-blue: #0081c8;
+  --olympic-yellow: #fcb131;
+  --olympic-black: #000000;
+  --olympic-green: #00a651;
+  --olympic-red: #ee334e;
+
+  --background: #ffffff;
+  --foreground: #000000;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
   --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary-foreground: #000000;
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  /* Assez foncé pour 4,5:1 sur le fond gris des cartes, pas seulement sur le blanc. */
+  --muted-foreground: oklch(0.48 0 0);
   --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --accent-foreground: #000000;
+  /* Texte d'erreur : le rouge olympique (4:1 sur blanc) n'y suffit pas, il encadre les erreurs. */
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --radius: 0.625rem;
+  /* Bord d'un champ : 3:1 au moins sur le blanc (WCAG 1.4.11). */
+  --input: oklch(0.556 0 0);
+  --ring: var(--olympic-blue);
+  /* Des cadres presque droits : la forme de l'identité est le coin coupé, pas l'arrondi. */
+  --radius: 0.25rem;
 }
 
 .dark {
+  /* Le cinquième anneau passe au blanc sur fond noir. */
+  --olympic-black: #ffffff;
+
   --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  --foreground: #ffffff;
   --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
+  --card-foreground: #ffffff;
   --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
   --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
+  --secondary-foreground: #ffffff;
   --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted-foreground: oklch(0.8 0 0);
   --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --accent-foreground: #ffffff;
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --input: oklch(1 0 0 / 45%);
+  --ring: var(--olympic-blue);
 }
 
 @theme inline {
@@ -65,10 +83,52 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-olympic-blue: var(--olympic-blue);
+  --color-olympic-yellow: var(--olympic-yellow);
+  --color-olympic-black: var(--olympic-black);
+  --color-olympic-green: var(--olympic-green);
+  --color-olympic-red: var(--olympic-red);
+  /* Titres : étroits et très gras comme le logo (Google Fonts, index.html). Texte : police système. */
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Coin coupé en haut à droite, comme les cadres de l'identité. Prévoir un peu de marge à droite. */
+@utility corner-cut {
+  clip-path: polygon(0 0, calc(100% - 0.75rem) 0, 100% 0.75rem, 100% 100%, 0 100%);
+}
+
+/* Bulle du supporter : coin coupé en haut à gauche, pointe en bas à droite (dans le padding bas). */
+@utility bubble-user {
+  clip-path: polygon(
+    0.75rem 0,
+    100% 0,
+    100% 100%,
+    calc(100% - 1rem) calc(100% - 0.75rem),
+    0 calc(100% - 0.75rem),
+    0 0.75rem
+  );
+}
+
+/* Bulle du chatbot : coin coupé en haut à droite, pointe en bas à gauche (dans le padding bas). */
+@utility bubble-assistant {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 0.75rem) 0,
+    100% 0.75rem,
+    100% calc(100% - 0.75rem),
+    1rem calc(100% - 0.75rem),
+    0 100%
+  );
+}
+
+/* Bord bleu qui suit la forme de la bulle découpée : quatre ombres portées sans flou. */
+@utility bubble-outline {
+  filter: drop-shadow(1.5px 0 0 var(--olympic-blue)) drop-shadow(-1.5px 0 0 var(--olympic-blue))
+    drop-shadow(0 1.5px 0 var(--olympic-blue)) drop-shadow(0 -1.5px 0 var(--olympic-blue));
 }
 
 @layer base {
