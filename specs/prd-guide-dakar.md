@@ -2,7 +2,7 @@
 
 **Auteur** : Fallou Bousso
 
-**Statut** : Brouillon
+**Statut** : Validé
 
 ## Problème
 
