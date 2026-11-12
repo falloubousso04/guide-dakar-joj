@@ -1,6 +1,6 @@
 # 001 — Demander au chatbot quoi faire avant son épreuve
 
-**Statut** : Validée
+**Statut** : Implémentée
 **PRD** : specs/prd-guide-dakar.md, TR1
 
 ## Contexte

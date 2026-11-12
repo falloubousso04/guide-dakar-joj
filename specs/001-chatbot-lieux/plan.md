@@ -93,3 +93,9 @@ Un message vide est refusé par `chatRequestSchema` (400, `VALIDATION_FAILED`) ;
 
 - [x] T11 [001-AS4] Écrire d'abord, dans `chat/infra/claude-tourist-assistant.spec.ts`, « 001-AS4: tells Claude to ask where the supporter is, naming Dakar, Diamniadio and Saly », puis corriger la consigne si besoin (relecteur : seule `missing` était vérifiée, pas la citation des trois sites)
 - [x] T12 [001-AS2] Écrire d'abord, dans `places/application/places.application.spec.ts`, « 001-AS2: leaves out a place that takes 6 h between 11:30 and 17:00 », avec `find()`, puis corriger si besoin (relecteur : l'absence n'était prouvée que par un test titré AS1)
+
+### Décision humaine après le passage 2
+
+- Accepté : `NOUVELLES-FONCTIONNALITES.md` et l'amendement du PRD (TR4, TR5) préparent les specs 002 et 003 ; ils sont dans le diff seulement parce que tout est sur `main`.
+- Accepté : la mascotte du guide reste, avec l'image officielle chargée quand elle est présente ; le groupe travaille pour les organisateurs des JOJ, qui en autorisent l'usage.
+- T11 et T12 corrigent les deux manques de tests du passage 2.
