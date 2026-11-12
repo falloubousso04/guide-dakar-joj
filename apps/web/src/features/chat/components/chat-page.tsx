@@ -1,4 +1,9 @@
-import { CHAT_MAX_MESSAGES, type ChatMessage, chatMessageSchema } from '@joj/shared';
+import {
+  CHAT_MAX_MESSAGES,
+  CHAT_MESSAGE_MAX_LENGTH,
+  type ChatMessage,
+  chatMessageSchema,
+} from '@joj/shared';
 import { useEffect, useState } from 'react';
 import { useSendChatMessage } from '../api/chat.queries';
 import { ErrorBubble, TypingIndicator } from './chat-bubble';
@@ -66,12 +71,13 @@ export function ChatPage() {
 }
 
 /**
- * Les CHAT_MAX_MESSAGES derniers messages, en commençant par un message du supporter :
+ * Les CHAT_MAX_MESSAGES derniers messages, en commençant par un message du supporter, chacun
+ * coupé à CHAT_MESSAGE_MAX_LENGTH caractères (une réponse de Claude peut être plus longue) :
  * au-delà, l'API refuserait la requête (400) et le chat resterait bloqué.
  */
 function lastMessages(conversation: ConversationEntry[]): ChatMessage[] {
   const recent = conversation
     .slice(-CHAT_MAX_MESSAGES)
-    .map(({ role, content }) => ({ role, content }));
+    .map(({ role, content }) => ({ role, content: content.slice(0, CHAT_MESSAGE_MAX_LENGTH) }));
   return recent[0]?.role === 'assistant' ? recent.slice(1) : recent;
 }

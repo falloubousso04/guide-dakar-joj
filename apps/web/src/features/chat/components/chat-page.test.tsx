@@ -3,7 +3,7 @@
  * supporter, indicateur d'attente, réponse du chatbot avec une carte par lieu, refus de l'API et
  * message vide. Chaque test vérifie ce que l'écran affiche et ce qui est parti sur le réseau.
  */
-import { CHAT_MAX_MESSAGES } from '@joj/shared';
+import { CHAT_MAX_MESSAGES, CHAT_MESSAGE_MAX_LENGTH } from '@joj/shared';
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
@@ -118,6 +118,23 @@ describe('ChatPage', () => {
     expect(bodies.at(-1)?.messages.at(-1)).toEqual({ role: 'user', content: 'Message 11' });
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   }, 30_000);
+
+  it('001-AS5: keeps the conversation going after a reply longer than the message limit', async () => {
+    fixture.chatReply = { ...placesReply, reply: 'Très long. '.repeat(200) };
+    const { user, seen } = await open();
+
+    await send(user, 'Je suis à Diamniadio');
+    await waitFor(() => expect(screen.queryByRole('status')).not.toBeInTheDocument());
+    fixture.chatReply = placesReply;
+    await send(user, '17 h');
+    await within(conversation()).findByText(placesReply.reply);
+
+    const second = writes(seen)[1]?.body as { messages: { content: string }[] };
+    for (const message of second.messages) {
+      expect(message.content.length).toBeLessThanOrEqual(CHAT_MESSAGE_MAX_LENGTH);
+    }
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
 
   it('001-AS8: says the event time has already passed, without proposing places', async () => {
     mockControl.failNext('POST /api/chat', 422, 'EVENT_TIME_PASSED');
