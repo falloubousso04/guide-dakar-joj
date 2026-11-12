@@ -78,3 +78,13 @@ Un message vide est refusé par `chatRequestSchema` (400, `VALIDATION_FAILED`) ;
 - [x] T03 [001-AS9] (A, Fallou) Écrire d'abord `chat/infra/claude-tourist-assistant.spec.ts` (« 001-AS9: turns an SDK failure into ASSISTANT_UNAVAILABLE »), avec un faux client SDK, puis `ClaudeTouristAssistant`, la lecture de `ANTHROPIC_API_KEY` et l'ajout du SDK
 - [x] T04 [001-AS1, AS4, AS5, AS6, AS8, AS9] (C, `taphsirabdoulaye-source`) Écrire d'abord `chat/application/chat.application.spec.ts` et `apps/api/test/chat.e2e.spec.ts` (« 001-AS4: … » et suivants), avec `FakeTouristAssistant`, puis `AnswerChatMessage`, `Clock`, `ChatController`, `ChatModule` et `app.module.ts`
 - [x] T05 [001-AS10, AS11] (D, `aminousy`) Écrire d'abord `features/chat/components/chat-page.test.tsx` et `routes/chat.a11y.test.tsx` (« 001-AS10: … », « 001-AS11: … »), avec la fausse API MSW, puis l'écran du chatbot, le thème et la police
+
+## 7. Corrections
+
+### Passage 1
+
+- [ ] T06 [001-AS1, AS3] Écrire d'abord, dans `places/application/places.application.spec.ts`, « 001-AS1: sorts the reachable places by return time » avec des lieux donnés dans le désordre, et « 001-AS3: proposes a place that brings the supporter back exactly at the event time » qui vérifie le lieu de 5 h 30 dans la liste avec `backAt` à 17:00, puis corriger `FindReachablePlaces` si besoin (relecteur : `places.application.spec.ts:20-37`, le tri et l'égalité ne sont pas prouvés par `find()`)
+- [ ] T07 [001-AS7] Écrire d'abord, dans `chat/application/chat.application.spec.ts`, « 001-AS7: asks the assistant to say that nothing fits » (l'IA reçoit `places: []` et `missing: []`), et dans `chat/infra/claude-tourist-assistant.spec.ts` « 001-AS7: tells Claude to say that no place fits » (la consigne est envoyée), puis corriger si besoin (relecteur : seule la liste vide était vérifiée)
+- [ ] T08 [001-AS5] Écrire d'abord, dans `features/chat/components/chat-page.test.tsx`, « 001-AS5: sends at most the last 20 messages of a long conversation », puis limiter l'envoi aux `CHAT_MAX_MESSAGES` derniers messages dans `chat-page.tsx` (relecteur : `chat-page.tsx:26-33`, au 11e message l'API répond 400 et le chat reste bloqué)
+- [ ] T09 [001-AS10] Écrire d'abord, dans `routes/chat.a11y.test.tsx` ou un test de route, « 001-AS10: the home page opens the chatbot » et « 001-AS10: the menu only shows the chatbot », pour couvrir la redirection de `/` et le menu (relecteur : commits `a075310` et `a118186` hors plan)
+- [ ] T10 [001-AS3] Écrire d'abord `apps/api/test/places-data.spec.ts` (« 001-AS3: the demo data has a place that takes exactly 5 h 30 from Diamniadio, and one that takes more than 6 h »), puis compléter `apps/api/data/places.json` (relecteur : aucun lieu ne fait 330 min depuis Diamniadio, comme le demande le §3)
