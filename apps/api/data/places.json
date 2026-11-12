@@ -45,7 +45,7 @@
     "id": "0199f5c2-0000-7000-8000-000000000007",
     "name": "Lac Rose",
     "district": "Sangalkam",
-    "visit_minutes": 120,
+    "visit_minutes": 160,
     "travel_minutes": { "dakar": 60, "diamniadio": 85, "saly": 150 }
   },
   {
