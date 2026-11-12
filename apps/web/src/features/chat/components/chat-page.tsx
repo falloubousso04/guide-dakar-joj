@@ -52,11 +52,11 @@ export function ChatPage() {
           <p className="font-display text-sm font-bold tracking-[0.2em] text-joj-lime uppercase">
             Ton guide de Dakar
           </p>
-          <h1 className="font-display text-4xl leading-none font-extrabold tracking-tight uppercase sm:text-5xl">
+          <h1 className="font-display text-3xl leading-none font-extrabold tracking-tight uppercase sm:text-5xl">
             Que faire avant votre épreuve ?
           </h1>
         </div>
-        <GuideMascot className="size-36 shrink-0 sm:size-56" />
+        <GuideMascot className="size-24 shrink-0 sm:size-56" />
         <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1.5 bg-joj-lime" />
       </section>
       {entries.length === 0 && <ChatWelcome onPick={send} />}

@@ -46,7 +46,7 @@ export function GuideMascot({ className }: { className?: string }) {
       <img
         src={LOCAL_MASCOT}
         alt=""
-        className={`${className ?? ''} object-contain drop-shadow-lg motion-safe:animate-float`}
+        className={`${className ?? ''} rounded-2xl object-contain drop-shadow-lg motion-safe:animate-float`}
       />
     );
   }

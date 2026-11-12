@@ -20,7 +20,7 @@ const OLYMPIC_BAND = [
 function RootLayout() {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-30 bg-joj-green-deep/95 text-white shadow-lg backdrop-blur-md">
+      <header className="sticky top-0 z-30 bg-joj-green-deep text-white shadow-lg">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
           <Link
             to="/"
@@ -49,7 +49,7 @@ function RootLayout() {
               <Link
                 key={to}
                 to={to}
-                className="flex flex-1 flex-col items-center gap-1 py-2 text-xs font-semibold transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring sm:flex-none sm:flex-row sm:gap-2 sm:rounded-full sm:px-4 sm:text-sm"
+                className="flex h-16 flex-1 flex-col items-center justify-center gap-1 text-xs font-semibold transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring sm:h-auto sm:flex-none sm:flex-row sm:gap-2 sm:rounded-full sm:px-4 sm:py-2 sm:text-sm"
                 activeProps={{ className: 'text-joj-green sm:bg-white/15 sm:text-white' }}
                 inactiveProps={{
                   className:
@@ -69,7 +69,7 @@ function RootLayout() {
         </div>
       </header>
       {/* Sur téléphone, la marge basse laisse la place aux onglets fixés en bas. */}
-      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] sm:px-6 sm:py-8">
+      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col bg-background pb-[calc(4rem+env(safe-area-inset-bottom))] sm:bg-transparent sm:px-6 sm:py-8">
         <div className="flex flex-1 flex-col gap-6 bg-background px-4 pt-5 pb-6 text-foreground shadow-2xl sm:corner-cut sm:px-8 sm:pt-8">
           <Outlet />
         </div>
