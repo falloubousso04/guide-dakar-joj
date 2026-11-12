@@ -1,6 +1,7 @@
 import type { PlaceSuggestion } from '@joj/shared';
 import { cn } from '@/lib/utils';
 import { formatClock, formatDuration } from './format';
+import { PlaceMapLink } from './place-map-link';
 
 // Une bande de couleur olympique par carte, dans l'ordre des anneaux : bleu, jaune, noir, vert, rouge.
 const BANDS = [
@@ -41,6 +42,7 @@ export function PlaceCard({ place, index }: { place: PlaceSuggestion; index: num
         <span aria-hidden="true" className="size-2 rounded-full bg-olympic-green" />
         Retour au site à <time dateTime={place.backAt}>{formatClock(place.backAt)}</time>
       </p>
+      <PlaceMapLink location={place.location} />
     </li>
   );
 }

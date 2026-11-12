@@ -62,6 +62,32 @@ describe('ChatPage', () => {
     ]);
   });
 
+  it('002-AS2: a place card with a location shows a map link to that place', async () => {
+    const { user } = await open();
+
+    await send(user, FIRST_MESSAGE);
+
+    const places = await within(conversation()).findByRole('list', { name: 'Lieux proposés' });
+    const [soumbedioune] = within(places).getAllByRole('listitem');
+    const link = within(soumbedioune!).getByRole('link', { name: /Voir sur la carte/ });
+    expect(link).toHaveAttribute(
+      'href',
+      'https://www.google.com/maps/search/?api=1&query=14.6786,-17.4637',
+    );
+    expect(link).toHaveAttribute('target', '_blank');
+  });
+
+  it('002-AS3: a place card without location keeps its details and shows no map link', async () => {
+    const { user } = await open();
+
+    await send(user, FIRST_MESSAGE);
+
+    const places = await within(conversation()).findByRole('list', { name: 'Lieux proposés' });
+    const musee = within(places).getAllByRole('listitem')[2]!;
+    expect(musee).toHaveTextContent(/Plateau.*Visites*1 h 30.*Trajets*45 min/);
+    expect(within(musee).queryByRole('link')).toBeNull();
+  });
+
   it('001-AS10: sends an example question when the supporter clicks it', async () => {
     const { user, seen } = await open();
 
