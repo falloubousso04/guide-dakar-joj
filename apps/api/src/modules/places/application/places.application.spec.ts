@@ -36,6 +36,42 @@ describe('FindReachablePlaces', () => {
     expect(first?.visitMinutes).toBe(60);
   });
 
+  it('001-AS1: sorts the reachable places by return time, whatever their stored order', async () => {
+    const repo = new InMemoryPlaceRepository([
+      makePlace('0199f5c2-0000-7000-8000-000000000012', 'Back at 15:30', 120, 60), // 240 min
+      makePlace('0199f5c2-0000-7000-8000-000000000013', 'Back at 13:30', 60, 30), // 120 min
+      makePlace('0199f5c2-0000-7000-8000-000000000014', 'Back at 14:30', 90, 45), // 180 min
+    ]);
+
+    const results = await new FindReachablePlaces(repo).find({
+      site: 'diamniadio',
+      now: NOW,
+      eventTime: EVENT_TIME,
+    });
+
+    expect(results.map((place) => place.name)).toEqual([
+      'Back at 13:30',
+      'Back at 14:30',
+      'Back at 15:30',
+    ]);
+  });
+
+  it('001-AS3: proposes a place that brings the supporter back exactly at the event time', async () => {
+    const repo = new InMemoryPlaceRepository([
+      makePlace('0199f5c2-0000-7000-8000-000000000015', 'Exactly 5 h 30', 150, 90), // 330 min
+    ]);
+
+    const results = await new FindReachablePlaces(repo).find({
+      site: 'diamniadio',
+      now: NOW,
+      eventTime: EVENT_TIME,
+    });
+
+    expect(results).toEqual([
+      expect.objectContaining({ name: 'Exactly 5 h 30', backAt: EVENT_TIME.toISOString() }),
+    ]);
+  });
+
   it('001-AS7: returns empty list when no place fits in 20 minutes', async () => {
     const repo = new InMemoryPlaceRepository([
       makePlace('0199f5c2-0000-7000-8000-000000000001', 'Marché Kermel', 20, 5), // 30 min
