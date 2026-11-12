@@ -55,6 +55,25 @@ describe('chat (application layer)', () => {
     expect(assistant.replies[0]).toMatchObject({ places: [goree], missing: [] });
   });
 
+  it('001-AS7: asks the assistant to say that nothing fits when no place is reachable', async () => {
+    const { assistant, reachablePlaces, answerChatMessage } = setup();
+    assistant.request = { site: 'diamniadio', eventTime: EVENT_TIME, now: NOW };
+    assistant.replyText = 'Aucun lieu ne tient avant ton épreuve.';
+    reachablePlaces.places = [];
+
+    const answer = await answerChatMessage.execute([
+      say('je suis à Diamniadio, mon match est à 17 h'),
+    ]);
+
+    expect(answer).toEqual({
+      reply: 'Aucun lieu ne tient avant ton épreuve.',
+      places: [],
+      missing: [],
+    });
+    // Rien ne manque et la liste est vide : c'est ce qui fait dire à l'IA qu'aucun lieu ne tient.
+    expect(assistant.replies[0]).toMatchObject({ places: [], missing: [] });
+  });
+
   it('001-AS4: asks for the missing site or event time and proposes no place', async () => {
     const { assistant, reachablePlaces, answerChatMessage } = setup();
     reachablePlaces.places = [goree];

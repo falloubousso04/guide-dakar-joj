@@ -112,4 +112,22 @@ describe('ClaudeTouristAssistant', () => {
     ).resolves.toBe('Tu as le temps de visiter Gorée.');
     expect(JSON.stringify(create.mock.calls[0]?.[0])).toContain('Île de Gorée');
   });
+
+  it('001-AS7: tells Claude to say that no place fits when the list is empty', async () => {
+    const create = vi.fn<(params: unknown) => Promise<unknown>>().mockResolvedValue({
+      stop_reason: 'end_turn',
+      content: [{ type: 'text', text: 'Aucun lieu ne tient avant ton épreuve.' }],
+    });
+    const assistant = new ClaudeTouristAssistant(fakeClient({ create }), today);
+
+    await assistant.reply({
+      request: { site: 'diamniadio', eventTime: new Date('2026-11-07T11:50:00.000Z'), now: null },
+      places: [],
+      missing: [],
+    });
+
+    const params = create.mock.calls[0]?.[0] as { system: string; messages: { content: string }[] };
+    expect(params.system).toContain('aucun lieu ne tient avant son épreuve');
+    expect(JSON.parse(params.messages[0]!.content)).toMatchObject({ places: [], missing: [] });
+  });
 });
