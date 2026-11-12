@@ -1,12 +1,14 @@
+import { PinIcon } from '@/components/icons';
 import { AssistantBubble } from './chat-bubble';
 
+// Un exemple par site olympique, chacun avec sa couleur.
 const EXAMPLES = [
-  'Je suis à Diamniadio, mon match est à 17 h',
-  'Je suis à Dakar, il est 10 h, mon épreuve est à 15 h 30',
-  'Je loge à Saly, ma finale commence à 18 h',
+  { question: 'Je suis à Diamniadio, mon match est à 17 h', color: 'text-olympic-blue' },
+  { question: 'Je suis à Dakar, il est 10 h, mon épreuve est à 15 h 30', color: 'text-joj-green' },
+  { question: 'Je loge à Saly, ma finale commence à 18 h', color: 'text-olympic-red' },
 ];
 
-/** L'accueil, avant le premier message : ce que le chatbot attend, et des exemples à cliquer. */
+/** L'accueil, avant le premier message : ce que le chatbot attend, et des exemples à toucher. */
 export function ChatWelcome({ onPick }: { onPick: (question: string) => void }) {
   return (
     <div className="flex flex-col gap-6">
@@ -17,18 +19,25 @@ export function ChatWelcome({ onPick }: { onPick: (question: string) => void }) 
         </p>
       </AssistantBubble>
       <section aria-labelledby="chat-examples" className="flex flex-col gap-3">
-        <h2 id="chat-examples" className="font-display text-lg font-bold tracking-wide uppercase">
+        <h2
+          id="chat-examples"
+          className="font-display text-sm font-bold tracking-[0.2em] text-muted-foreground uppercase"
+        >
           Essayez par exemple
         </h2>
-        <ul className="flex flex-col gap-2">
-          {EXAMPLES.map((question) => (
-            <li key={question}>
+        <ul className="grid gap-3 sm:grid-cols-3">
+          {EXAMPLES.map(({ question, color }, index) => (
+            <li
+              key={question}
+              className="motion-safe:animate-fade-up"
+              style={{ animationDelay: `${index * 80}ms` }}
+            >
               <button
                 type="button"
                 onClick={() => onPick(question)}
-                className="flex w-full corner-cut items-center gap-3 border-2 border-foreground px-4 py-3 pr-6 text-left transition-colors outline-none hover:bg-olympic-yellow/20 focus-visible:bg-olympic-yellow/20 focus-visible:ring-[3px] focus-visible:ring-ring"
+                className="flex h-full w-full items-start gap-3 rounded-2xl border border-black/10 bg-background p-4 text-left shadow-sm transition outline-none hover:-translate-y-0.5 hover:border-joj-green hover:shadow-md focus-visible:ring-[3px] focus-visible:ring-ring"
               >
-                <span aria-hidden="true" className="size-2.5 shrink-0 bg-olympic-yellow" />
+                <PinIcon className={`mt-0.5 size-5 shrink-0 ${color}`} />
                 {question}
               </button>
             </li>

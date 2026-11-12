@@ -1,23 +1,45 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Image facultative, présente seulement sur la machine qui fait la démo (ignorée par git) :
- * la mascotte officielle des Jeux est une marque protégée, elle n'est pas publiée dans le dépôt.
+ * L'image de la mascotte des Jeux, fournie par les organisateurs : elle se dépose sur la machine
+ * qui fait la démo (dossier ignoré par git). Sans elle, le personnage guide original s'affiche.
  */
 const LOCAL_MASCOT = '/mascotte/ayo.png';
 
-/** La mascotte locale si son image existe sur cette machine, sinon le personnage guide original. */
-export function GuideMascot({ className }: { className?: string }) {
-  const [hasLocalMascot, setHasLocalMascot] = useState(false);
-
+/** Vrai quand l'image de la mascotte est présente sur cette machine. */
+function useLocalMascot(): boolean {
+  const [present, setPresent] = useState(false);
   useEffect(() => {
     const image = new Image();
-    image.onload = () => setHasLocalMascot(true);
+    image.onload = () => setPresent(true);
     image.src = LOCAL_MASCOT;
     return () => {
       image.onload = null;
     };
   }, []);
+  return present;
+}
+
+/** Le petit portrait du guide, à côté de ses messages. */
+export function GuideAvatar() {
+  const hasLocalMascot = useLocalMascot();
+  return (
+    <span
+      aria-hidden="true"
+      className="grid size-9 shrink-0 place-items-center overflow-hidden rounded-full bg-joj-green-deep ring-2 ring-joj-lime"
+    >
+      {hasLocalMascot ? (
+        <img src={LOCAL_MASCOT} alt="" className="size-full bg-white object-cover object-top" />
+      ) : (
+        <OriginalGuide still className="size-8" />
+      )}
+    </span>
+  );
+}
+
+/** La mascotte locale si son image existe sur cette machine, sinon le personnage guide original. */
+export function GuideMascot({ className }: { className?: string }) {
+  const hasLocalMascot = useLocalMascot();
 
   if (hasLocalMascot) {
     return (
@@ -32,7 +54,7 @@ export function GuideMascot({ className }: { className?: string }) {
 }
 
 /** Le personnage guide original : une bulle de dialogue qui salue. Purement décoratif. */
-function OriginalGuide({ className }: { className?: string }) {
+function OriginalGuide({ className, still = false }: { className?: string; still?: boolean }) {
   return (
     <svg
       aria-hidden="true"
@@ -40,7 +62,7 @@ function OriginalGuide({ className }: { className?: string }) {
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g className="origin-center motion-safe:animate-float">
+      <g className={still ? undefined : 'origin-center motion-safe:animate-float'}>
         {/* Le corps : une bulle à coin coupé, comme celles du chat. */}
         <path d="M18 22 H90 L104 36 V82 H44 L28 98 V82 H18 Z" fill="#ffffff" />
         {/* La casquette aux couleurs olympiques. */}
@@ -61,7 +83,10 @@ function OriginalGuide({ className }: { className?: string }) {
         <circle cx="40" cy="62" r="4" fill="#ee334e" opacity="0.55" />
         <circle cx="82" cy="62" r="4" fill="#ee334e" opacity="0.55" />
         {/* Le bras qui salue. */}
-        <g style={{ transformOrigin: '104px 60px' }} className="motion-safe:animate-wave">
+        <g
+          style={{ transformOrigin: '104px 60px' }}
+          className={still ? undefined : 'motion-safe:animate-wave'}
+        >
           <path d="M104 60 L114 44" stroke="#ffffff" strokeWidth="7" strokeLinecap="round" />
           <circle cx="115" cy="41" r="5.5" fill="#b5e61d" />
         </g>
