@@ -91,5 +91,5 @@ Un message vide est refusé par `chatRequestSchema` (400, `VALIDATION_FAILED`) ;
 
 ### Passage 2
 
-- [ ] T11 [001-AS4] Écrire d'abord, dans `chat/infra/claude-tourist-assistant.spec.ts`, « 001-AS4: tells Claude to ask where the supporter is, naming Dakar, Diamniadio and Saly », puis corriger la consigne si besoin (relecteur : seule `missing` était vérifiée, pas la citation des trois sites)
+- [x] T11 [001-AS4] Écrire d'abord, dans `chat/infra/claude-tourist-assistant.spec.ts`, « 001-AS4: tells Claude to ask where the supporter is, naming Dakar, Diamniadio and Saly », puis corriger la consigne si besoin (relecteur : seule `missing` était vérifiée, pas la citation des trois sites)
 - [ ] T12 [001-AS2] Écrire d'abord, dans `places/application/places.application.spec.ts`, « 001-AS2: leaves out a place that takes 6 h between 11:30 and 17:00 », avec `find()`, puis corriger si besoin (relecteur : l'absence n'était prouvée que par un test titré AS1)

@@ -130,4 +130,27 @@ describe('ClaudeTouristAssistant', () => {
     expect(params.system).toContain('aucun lieu ne tient avant son épreuve');
     expect(JSON.parse(params.messages[0]!.content)).toMatchObject({ places: [], missing: [] });
   });
+
+  it('001-AS4: tells Claude to ask where the supporter is, naming Dakar, Diamniadio and Saly', async () => {
+    const create = vi.fn<(params: unknown) => Promise<unknown>>().mockResolvedValue({
+      stop_reason: 'end_turn',
+      content: [{ type: 'text', text: 'Où es-tu : Dakar, Diamniadio ou Saly ?' }],
+    });
+    const assistant = new ClaudeTouristAssistant(fakeClient({ create }), today);
+
+    await assistant.reply({
+      request: { site: null, eventTime: new Date('2026-11-07T17:00:00.000Z'), now: null },
+      places: [],
+      missing: ['site'],
+    });
+
+    const params = create.mock.calls[0]?.[0] as { system: string; messages: { content: string }[] };
+    expect(params.system).toMatch(
+      /Si "missing" contient "site", demande-lui où il se trouve : Dakar, Diamniadio ou Saly/,
+    );
+    expect(JSON.parse(params.messages[0]!.content)).toMatchObject({
+      missing: ['site'],
+      places: [],
+    });
+  });
 });
