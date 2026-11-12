@@ -3,7 +3,8 @@
  * supporter, indicateur d'attente, réponse du chatbot avec une carte par lieu, refus de l'API et
  * message vide. Chaque test vérifie ce que l'écran affiche et ce qui est parti sur le réseau.
  */
-import { screen, within } from '@testing-library/react';
+import { CHAT_MAX_MESSAGES } from '@joj/shared';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { mockControl } from '@/mocks/control';
@@ -97,6 +98,26 @@ describe('ChatPage', () => {
       },
     ]);
   });
+
+  it('001-AS5: sends at most the last 20 messages, starting with the supporter, in a long conversation', async () => {
+    const { user, seen } = await open();
+
+    for (let turn = 1; turn <= 11; turn += 1) {
+      await send(user, `Message ${turn}`);
+      await waitFor(() => expect(screen.queryByRole('status')).not.toBeInTheDocument());
+    }
+
+    const bodies = writes(seen).map(
+      (request) => request.body as { messages: { role: string; content: string }[] },
+    );
+    expect(bodies).toHaveLength(11);
+    for (const { messages } of bodies) {
+      expect(messages.length).toBeLessThanOrEqual(CHAT_MAX_MESSAGES);
+      expect(messages[0]?.role).toBe('user');
+    }
+    expect(bodies.at(-1)?.messages.at(-1)).toEqual({ role: 'user', content: 'Message 11' });
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  }, 30_000);
 
   it('001-AS8: says the event time has already passed, without proposing places', async () => {
     mockControl.failNext('POST /api/chat', 422, 'EVENT_TIME_PASSED');

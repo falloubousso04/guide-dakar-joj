@@ -1,4 +1,4 @@
-import { chatMessageSchema } from '@joj/shared';
+import { CHAT_MAX_MESSAGES, type ChatMessage, chatMessageSchema } from '@joj/shared';
 import { useEffect, useState } from 'react';
 import { useSendChatMessage } from '../api/chat.queries';
 import { ErrorBubble, TypingIndicator } from './chat-bubble';
@@ -28,9 +28,9 @@ export function ChatPage() {
       { role: 'user', content: parsed.data.content },
     ];
     setEntries(conversation);
-    // Pas de mémoire côté serveur : toute la conversation part avec chaque message.
+    // Pas de mémoire côté serveur : la conversation part avec chaque message, dans la limite du contrat.
     sendMessage.mutate(
-      { messages: conversation.map(({ role, content }) => ({ role, content })) },
+      { messages: lastMessages(conversation) },
       {
         onSuccess: ({ reply, places }) =>
           setEntries((current) => [...current, { role: 'assistant', content: reply, places }]),
@@ -63,4 +63,15 @@ export function ChatPage() {
       <ChatInput onSend={send} pending={sendMessage.isPending} />
     </div>
   );
+}
+
+/**
+ * Les CHAT_MAX_MESSAGES derniers messages, en commençant par un message du supporter :
+ * au-delà, l'API refuserait la requête (400) et le chat resterait bloqué.
+ */
+function lastMessages(conversation: ConversationEntry[]): ChatMessage[] {
+  const recent = conversation
+    .slice(-CHAT_MAX_MESSAGES)
+    .map(({ role, content }) => ({ role, content }));
+  return recent[0]?.role === 'assistant' ? recent.slice(1) : recent;
 }
