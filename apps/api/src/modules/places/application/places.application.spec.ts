@@ -72,6 +72,21 @@ describe('FindReachablePlaces', () => {
     ]);
   });
 
+  it('001-AS2: leaves out a place that takes 6 h between 11:30 and 17:00', async () => {
+    const repo = new InMemoryPlaceRepository([
+      makePlace('0199f5c2-0000-7000-8000-000000000016', 'Six hours', 180, 90), // 360 min
+      makePlace('0199f5c2-0000-7000-8000-000000000017', 'Two hours', 60, 30), // 120 min
+    ]);
+
+    const results = await new FindReachablePlaces(repo).find({
+      site: 'diamniadio',
+      now: NOW,
+      eventTime: EVENT_TIME,
+    });
+
+    expect(results.map((place) => place.name)).toEqual(['Two hours']);
+  });
+
   it('001-AS7: returns empty list when no place fits in 20 minutes', async () => {
     const repo = new InMemoryPlaceRepository([
       makePlace('0199f5c2-0000-7000-8000-000000000001', 'Marché Kermel', 20, 5), // 30 min
