@@ -21,6 +21,7 @@ const goree: PlaceSuggestion = {
   visitMinutes: 120,
   travelMinutes: 60,
   backAt: '2026-11-07T15:30:00.000Z',
+  location: null,
 };
 
 describe('ClaudeTouristAssistant', () => {

@@ -24,6 +24,7 @@ export class FindReachablePlaces extends ReachablePlaces {
         visitMinutes: place.visitMinutes,
         travelMinutes: place.travelMinutes[site],
         backAt: place.returnTime(site, now).toISOString(),
+        location: place.location,
       }));
   }
 }

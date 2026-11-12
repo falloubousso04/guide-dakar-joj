@@ -13,6 +13,7 @@ export function toDomain(row: PlaceRow): Place {
     district: row.district,
     visitMinutes: row.visitMinutes,
     travelMinutes,
+    location: null,
   });
 }
 
