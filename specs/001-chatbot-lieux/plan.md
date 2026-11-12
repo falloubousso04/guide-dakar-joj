@@ -88,3 +88,8 @@ Un message vide est refusé par `chatRequestSchema` (400, `VALIDATION_FAILED`) ;
 - [x] T08 [001-AS5] Écrire d'abord, dans `features/chat/components/chat-page.test.tsx`, « 001-AS5: sends at most the last 20 messages of a long conversation », puis limiter l'envoi aux `CHAT_MAX_MESSAGES` derniers messages dans `chat-page.tsx` (relecteur : `chat-page.tsx:26-33`, au 11e message l'API répond 400 et le chat reste bloqué)
 - [x] T09 [001-AS10] Écrire d'abord, dans `routes/chat.a11y.test.tsx` ou un test de route, « 001-AS10: the home page opens the chatbot » et « 001-AS10: the menu only shows the chatbot », pour couvrir la redirection de `/` et le menu (relecteur : commits `a075310` et `a118186` hors plan)
 - [x] T10 [001-AS3] Écrire d'abord `apps/api/test/places-data.spec.ts` (« 001-AS3: the demo data has a place that takes exactly 5 h 30 from Diamniadio, and one that takes more than 6 h »), puis compléter `apps/api/data/places.json` (relecteur : aucun lieu ne fait 330 min depuis Diamniadio, comme le demande le §3)
+
+### Passage 2
+
+- [ ] T11 [001-AS4] Écrire d'abord, dans `chat/infra/claude-tourist-assistant.spec.ts`, « 001-AS4: tells Claude to ask where the supporter is, naming Dakar, Diamniadio and Saly », puis corriger la consigne si besoin (relecteur : seule `missing` était vérifiée, pas la citation des trois sites)
+- [ ] T12 [001-AS2] Écrire d'abord, dans `places/application/places.application.spec.ts`, « 001-AS2: leaves out a place that takes 6 h between 11:30 and 17:00 », avec `find()`, puis corriger si besoin (relecteur : l'absence n'était prouvée que par un test titré AS1)
