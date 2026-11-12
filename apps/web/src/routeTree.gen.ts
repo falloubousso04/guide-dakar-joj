@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChatRouteImport } from './routes/chat'
+import { Route as CommentCaMarcheRouteImport } from './routes/comment-ca-marche'
 import { Route as DisciplinesIndexRouteImport } from './routes/disciplines.index'
 import { Route as DisciplinesDisciplineIdRouteImport } from './routes/disciplines.$disciplineId'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const ChatRoute = ChatRouteImport.update({
   id: '/chat',
   path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommentCaMarcheRoute = CommentCaMarcheRouteImport.update({
+  id: '/comment-ca-marche',
+  path: '/comment-ca-marche',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DisciplinesIndexRoute = DisciplinesIndexRouteImport.update({
@@ -38,12 +44,14 @@ const DisciplinesDisciplineIdRoute = DisciplinesDisciplineIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/chat': typeof ChatRoute
+  '/comment-ca-marche': typeof CommentCaMarcheRoute
   '/disciplines/$disciplineId': typeof DisciplinesDisciplineIdRoute
   '/disciplines/': typeof DisciplinesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chat': typeof ChatRoute
+  '/comment-ca-marche': typeof CommentCaMarcheRoute
   '/disciplines/$disciplineId': typeof DisciplinesDisciplineIdRoute
   '/disciplines': typeof DisciplinesIndexRoute
 }
@@ -51,21 +59,38 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/chat': typeof ChatRoute
+  '/comment-ca-marche': typeof CommentCaMarcheRoute
   '/disciplines/$disciplineId': typeof DisciplinesDisciplineIdRoute
   '/disciplines/': typeof DisciplinesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chat' | '/disciplines/$disciplineId' | '/disciplines/'
+  fullPaths:
+    | '/'
+    | '/chat'
+    | '/comment-ca-marche'
+    | '/disciplines/$disciplineId'
+    | '/disciplines/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chat' | '/disciplines/$disciplineId' | '/disciplines'
+  to:
+    | '/'
+    | '/chat'
+    | '/comment-ca-marche'
+    | '/disciplines/$disciplineId'
+    | '/disciplines'
   id:
-    '__root__' | '/' | '/chat' | '/disciplines/$disciplineId' | '/disciplines/'
+    | '__root__'
+    | '/'
+    | '/chat'
+    | '/comment-ca-marche'
+    | '/disciplines/$disciplineId'
+    | '/disciplines/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChatRoute: typeof ChatRoute
+  CommentCaMarcheRoute: typeof CommentCaMarcheRoute
   DisciplinesDisciplineIdRoute: typeof DisciplinesDisciplineIdRoute
   DisciplinesIndexRoute: typeof DisciplinesIndexRoute
 }
@@ -84,6 +109,13 @@ declare module '@tanstack/react-router' {
       path: '/chat'
       fullPath: '/chat'
       preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comment-ca-marche': {
+      id: '/comment-ca-marche'
+      path: '/comment-ca-marche'
+      fullPath: '/comment-ca-marche'
+      preLoaderRoute: typeof CommentCaMarcheRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/disciplines/': {
@@ -106,6 +138,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChatRoute: ChatRoute,
+  CommentCaMarcheRoute: CommentCaMarcheRoute,
   DisciplinesDisciplineIdRoute: DisciplinesDisciplineIdRoute,
   DisciplinesIndexRoute: DisciplinesIndexRoute,
 }
