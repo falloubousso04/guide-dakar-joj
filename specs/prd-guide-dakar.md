@@ -1,7 +1,6 @@
 # PRD — Guide de Dakar entre deux épreuves
 
 **Auteur** : Fallou Bousso
-
 **Statut** : Validé
 
 ## Problème
@@ -34,17 +33,18 @@ Le supporter dit ce qu'il aime (musique, culture, plage, artisanat) ; le chatbot
 
 Le chatbot propose aussi les animations datées (concerts, fan zones). Règle : une animation n'est proposée que si elle est en cours ou à venir pendant le temps libre, et que le supporter peut revenir à temps.
 
+### TR4 — Voir le lieu sur la carte
+
+Chaque lieu proposé donne son emplacement : un lien ouvre l'application de cartes du téléphone sur ce lieu, pour que le supporter sache où aller. Règle : un lieu sans emplacement connu n'affiche pas de lien.
+
+### TR5 — L'agenda de la journée
+
+Le supporter consulte toutes les animations d'une journée des Jeux, triées par heure de début, avec leur lieu et leur quartier. Règle : seules les animations de la journée choisie apparaissent, et la journée doit être pendant les Jeux.
+
 ## Hors périmètre
 
-- La réservation et le paiement.
-- La carte et l'itinéraire pas à pas, y compris un service de cartes externe.
-- Les comptes des visiteurs, et la mémoire d'une conversation d'une visite à l'autre.
-- Les langues autres que le français.
+- La réservation et le paiement ; une carte intégrée à l'application et l'itinéraire pas à pas ; les comptes des visiteurs et la mémoire d'une conversation ; les langues autres que le français.
 
 ## Hypothèses et risques
 
-- Supposé : si le supporter ne dit pas l'heure qu'il est, son temps libre commence au moment du message.
-- Supposé : les temps de trajet enregistrés sont fixes et aucune marge n'est ajoutée au retour ; un embouteillage ou une file d'entrée peut faire rater l'épreuve.
-- Supposé : les horaires d'ouverture ne sont pas vérifiés en TR1 ; un lieu fermé peut être proposé.
-- Supposé : les lieux sont des données de démonstration ; leur exactitude n'est pas garantie.
-- Risque : si l'IA est indisponible ou comprend mal, le chatbot doit le dire plutôt qu'inventer une réponse.
+- Supposé : sans heure donnée, le temps libre commence au message ; les trajets sont fixes, sans marge au retour ni vérification des horaires d'ouverture ; un embouteillage ou un lieu fermé peut gâcher la sortie. Supposé : lieux, emplacements et animations sont des données de démonstration. Risque : si l'IA est indisponible ou comprend mal, le chatbot doit le dire plutôt qu'inventer.
