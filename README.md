@@ -1,61 +1,75 @@
 # Guide de Dakar — JOJ Dakar 2026
 
-Projet de groupe de l'atelier C du bootcamp Claude Code, thème **Guide touristique de Dakar**.
+- **Le problème et pour qui** : un supporter étranger, à Dakar pour la première fois, a quelques heures libres entre deux épreuves et ne sait pas quoi visiter sans risquer de rater son match. Notre chatbot lui propose seulement les lieux où l'aller, la visite et le retour tiennent avant son épreuve.
+- **Lancer** : `pnpm install`, puis `pnpm db:seed` et `pnpm dev`, puis ouvrir http://localhost:5173 (la clé de l'API Claude va dans `apps/api/.env`, voir plus bas).
+- **Ce qui manque** : les envies du supporter (TR2) et les animations en cours dans le chatbot (TR3) ; les horaires d'ouverture des lieux et une marge de sécurité au retour ne sont pas encore pris en compte.
 
-## Le problème
+| Lien                    | Adresse                                           |
+| ----------------------- | ------------------------------------------------- |
+| Application en ligne    | https://guide-dakar-joj.vercel.app                |
+| API et sa documentation | https://guide-dakar-joj.onrender.com/api/docs     |
+| Code source             | https://github.com/falloubousso04/guide-dakar-joj |
 
-Des milliers de visiteurs et de supporters sont à Dakar pour les Jeux, souvent pour la première fois. Entre deux épreuves, ils ont quelques heures devant eux et ne savent pas quoi faire, ni où : les animations sont annoncées un peu partout, et rien ne dit ce qui est proche, ce qui se passe maintenant, ou ce qui vaut le détour.
+> L'API est hébergée sur une offre gratuite : après une période sans visite, le premier message peut prendre jusqu'à une minute, le temps que le serveur se réveille.
 
-## Notre produit
+Projet de groupe de l'atelier C du bootcamp Claude Code (thème **Guide touristique de Dakar**), construit pour les organisateurs des Jeux Olympiques de la Jeunesse Dakar 2026.
 
-Le groupe a retenu le PRD de Fallou Bousso : **[specs/prd-guide-dakar.md](specs/prd-guide-dakar.md)**. C'est le seul PRD du dépôt, et celui que lisent toutes les commandes de la méthode.
+## Ce que fait l'application
 
-**Un chatbot de poche pour les supporters.** Le supporter écrit comme il parlerait à un habitant (« je suis à Diamniadio, mon match est à 17 h ») ; le chatbot lui répond avec les lieux où l'aller, la visite et le retour tiennent avant son épreuve, et lui demande ce qui manque. Claude comprend la phrase et rédige la réponse ; le choix des lieux reste une règle de temps appliquée par l'application.
+| Le chatbot                               | L'agenda de la journée                | Comment ça marche                                         |
+| ---------------------------------------- | ------------------------------------- | --------------------------------------------------------- |
+| ![Le chatbot](docs/captures/chatbot.png) | ![L'agenda](docs/captures/agenda.png) | ![Comment ça marche](docs/captures/comment-ca-marche.png) |
 
-| Tranche | Ce qu'on livre                                                  | Spec | État    |
-| ------- | --------------------------------------------------------------- | ---- | ------- |
-| TR1     | Demander au chatbot quoi faire avant son épreuve                | 001  | à faire |
-| TR2     | Le chatbot tient compte des envies                              | 002  | à faire |
-| TR3     | Ce qui se passe maintenant : les animations en cours ou à venir | 003  | à faire |
+- **Le chatbot** : le supporter écrit comme il parlerait à un habitant (« je suis à Diamniadio, il est 11 h 30, mon match est à 17 h »). Claude comprend la phrase et rédige la réponse ; **l'application, et non l'IA, choisit les lieux** : un lieu n'est proposé que si aller + visite + retour tiennent avant l'épreuve. S'il manque le site ou l'heure, le chatbot les demande. Chaque lieu a sa carte : durée de visite, trajet, heure de retour, et un lien **« Voir sur la carte »**.
+- **L'agenda** : toutes les animations d'une journée des Jeux (concerts, fan zones), triées par heure de début, avec leur lieu et leur quartier.
+- **Mobile d'abord** : barre d'onglets en bas de l'écran sur téléphone, couleurs et formes de l'identité des JOJ.
 
-**Qui fait quoi** : TR1 est découpée en quatre parties, une par membre, chacune avec ses fichiers, ses contrats et le design de l'écran. Tout est dans **[ORGANISATION.md](ORGANISATION.md)** : lis-le avant de coder.
+## Où en est le produit
 
-| Partie | Personne                  | Quoi                                        |
-| ------ | ------------------------- | ------------------------------------------- |
-| A      | Fallou Bousso             | contrats, puis intégration de l'IA (Claude) |
-| B      | `yandeG-dev`              | les lieux et la règle de temps              |
-| C      | `taphsirabdoulaye-source` | l'API du chatbot                            |
-| D      | `aminousy`                | l'écran de discussion et son design         |
+Le PRD du groupe est dans [specs/prd-guide-dakar.md](specs/prd-guide-dakar.md). Chaque tranche suit la méthode du bootcamp : spec, plan, code en TDD, puis `/converge` avec un relecteur indépendant.
 
-**Avant de commencer TR1**, le PRD est au statut `Brouillon` : le groupe le relit avec la grille, puis Fallou le fait valider avec `/prd`. Personne ne lance `/spec` avant que le statut soit `Validé`.
+| Tranche | Ce qu'on livre                                              | Spec                                    | État                                     |
+| ------- | ----------------------------------------------------------- | --------------------------------------- | ---------------------------------------- |
+| TR1     | Demander au chatbot quoi faire avant son épreuve            | [001](specs/001-chatbot-lieux/spec.md)  | ✅ Implémentée                           |
+| TR4     | Voir le lieu sur la carte                                   | [002](specs/002-carte-lieu/spec.md)     | ✅ Implémentée                           |
+| TR5     | L'agenda de la journée                                      | [003](specs/003-agenda-journee/spec.md) | 🟡 livrée, une correction (T08) en cours |
+| TR2     | Le chatbot tient compte des envies                          | –                                       | à venir                                  |
+| TR3     | Ce qui se passe maintenant : les animations dans le chatbot | –                                       | à venir                                  |
 
-## Démarrer
+`pnpm check` (format, lint, types, 256 tests, build) est vert, et `pnpm spec:check specs/<spec> --trace` montre le test de chaque scénario.
 
-1. Clone le dépôt : `git clone https://github.com/falloubousso04/guide-dakar-joj.git`, puis `cd guide-dakar-joj`.
-2. `pnpm install`, puis `pnpm exec lefthook install` (installe le hook de pré-commit).
-3. `pnpm check` doit être vert.
-4. Lance Claude Code à la racine du dépôt : il lit `CLAUDE.md` et les skills tout seul.
+## L'équipe
 
-## Comment on travaille
+| Personne                  | Ce qu'il a construit                                                                      |
+| ------------------------- | ----------------------------------------------------------------------------------------- |
+| Fallou Bousso             | le PRD, les contrats, l'intégration de Claude, la refonte du design, l'intégration finale |
+| `yandeG-dev`              | les lieux et la règle de temps, puis « Voir sur la carte »                                |
+| `taphsirabdoulaye-source` | l'API du chatbot, puis l'agenda (API et écran)                                            |
+| `aminousy`                | l'écran du chatbot, puis les corrections de l'agenda                                      |
 
-Ce dépôt contient la base du bootcamp : l'API, le front, les schémas partagés, les outils `tools/sdd`, les skills, le sous-agent `relecteur`, les hooks et le `CLAUDE.md` du projet. Les règles sont dans `specs/constitution.md`, la grille de relecture dans `task/GRILLE-RELECTURE.md`.
+La répartition et les règles de travail sont dans [ORGANISATION.md](ORGANISATION.md) (tranche 1) et [NOUVELLES-FONCTIONNALITES.md](NOUVELLES-FONCTIONNALITES.md) (tranches 4 et 5).
 
-**Une tranche à la fois, dans l'ordre.** Le pilote de la tranche écrit la spec et le plan avec le groupe ; ensuite, chacun réalise sa tâche du plan sur sa propre branche (voir [ORGANISATION.md](ORGANISATION.md)). Pour TR1, le pilote est Fallou.
+## Lancer en local
 
-1. **Spec et plan** : le pilote crée la branche `tr1-spec`, lance `/clear`, `/spec TR1 <précisions>`, puis `/spec-plan` en lui donnant `ORGANISATION.md`. Au moins un autre membre relit `spec.md` puis `plan.md` avec la grille avant chaque « je valide ». La pull request est fusionnée dans `main`.
-2. **Contrats** : le pilote réalise T01 (`/tdd-task T01`) et la fusionne dans `main`. Les autres attendent cette fusion.
-3. **Code en parallèle** : chacun part de `main` à jour, crée la branche de sa tâche, puis lance `/tdd-task T0n` avec son numéro. Claude écrit chaque test d'abord, le voit échouer, puis fait le commit.
-4. **Pull requests** : `pnpm check` vert, push, pull request vers `main`. Un autre membre la relit et la fusionne. Celui qui produit ne valide pas.
-5. **Fin** : le pilote lance `/converge` sur `main`, puis la démo avec `pnpm dev`.
+1. `git clone https://github.com/falloubousso04/guide-dakar-joj.git`, puis `cd guide-dakar-joj`.
+2. `pnpm install`, puis `pnpm exec lefthook install` (le hook de pré-commit).
+3. Copier `apps/api/.env.example` en `apps/api/.env`, puis y mettre sa clé : `ANTHROPIC_API_KEY=sk-ant-…`. Sans clé, l'application tourne, mais le chatbot répond qu'il n'a pas pu répondre (503).
+4. `pnpm db:seed` (lieux et animations de démo), puis `pnpm dev`, et ouvrir http://localhost:5173.
+5. `pnpm check` vérifie tout le dépôt. Aucun test n'appelle Claude : l'IA est remplacée par un faux dans les tests.
 
-**Règles git du groupe**
+## Comment c'est construit
 
-- On ne pousse jamais directement sur `main` : tout passe par une branche et une pull request relue.
-- Messages Conventional Commits : `feat(guide): T03 propose only reachable places (001-AS2)`, `docs(prd): …`. Jamais `--no-verify`.
-- `git pull --rebase` avant de pousser ; `pnpm check` vert avant de demander une relecture.
-- On ne modifie pas le PRD sans le groupe : une modification passe par `/prd <la modification>`, qui l'amende, et une nouvelle validation.
+- **API** NestJS (`apps/api`) : un module par domaine (`places`, `chat`, `agenda`), découpé en `domain/`, `application/`, `infra/` et `http/` ; le chatbot passe par un port `TouristAssistant`, implémenté avec le SDK Claude (`claude-opus-5-5`).
+- **Front** React (`apps/web`) : TanStack Router et Query, Tailwind ; une fausse API MSW pour les tests et un audit d'accessibilité par écran.
+- **Schémas partagés** Zod (`packages/shared`), utilisés par l'API comme par le front.
+- **Mise en ligne** : le front sur Vercel (`apps/web/vercel.json` redirige `/api` vers l'API), l'API sur Render avec une base PostgreSQL ; en local, une base PGlite embarquée.
 
-**Secrets** : la clé de l'API Claude (TR2) va seulement dans `apps/api/.env`, ignoré par git. Chacun utilise sa propre clé ; on ne la colle jamais dans une conversation, un commit ou une issue.
+## Règles de travail du groupe
+
+- Toute fonctionnalité suit `/prd` → `/spec` → `/spec-plan` → `/tdd-task` → `/converge` (principes dans `specs/constitution.md`, relecture avec `task/GRILLE-RELECTURE.md`).
+- Une branche à jour de `main` par tâche, `pnpm check` vert, puis une pull request relue par un autre membre.
+- Messages Conventional Commits, jamais `--no-verify`. Une migration se génère après un `git pull`, avec `pnpm db:generate --name=<sujet>`.
+- Aucun secret dans le dépôt : chacun garde sa clé dans `apps/api/.env`, ignoré par git.
 
 ---
 
