@@ -1,6 +1,6 @@
 import type { PlaceSuggestion } from '@joj/shared';
 import { CheckIcon, ClockIcon, PinIcon, RouteIcon } from '@/components/icons';
-import { formatClock, formatDuration } from './format';
+import { formatClock, formatDuration } from '@/lib/format';
 import { PlaceMapLink } from './place-map-link';
 
 // Une bande de couleur olympique par carte, dans l'ordre des anneaux : bleu, jaune, noir, vert, rouge.

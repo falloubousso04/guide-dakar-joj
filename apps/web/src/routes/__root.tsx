@@ -1,10 +1,11 @@
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
-import { ChatIcon, InfoIcon } from '@/components/icons';
+import { CalendarIcon, ChatIcon, InfoIcon } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';
 
 // Les onglets de l'application : en bas de l'écran sur téléphone, dans la barre du haut sur ordinateur.
 const TABS = [
   { to: '/chat', label: 'Chatbot', Icon: ChatIcon },
+  { to: '/agenda', label: 'Agenda', Icon: CalendarIcon },
   { to: '/comment-ca-marche', label: 'Comment ça marche', Icon: InfoIcon },
 ] as const;
 
