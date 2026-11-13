@@ -2,10 +2,18 @@
  * La fausse API tient le même contrat que apps/api : si elle s'en écarte, les tests du front
  * passent contre une API qui n'existe pas. Ces tests l'appellent avec `fetch`, sans React.
  */
-import { chatResponseSchema } from '@joj/shared';
+import { chatResponseSchema, dayAgendaSchema } from '@joj/shared';
 import { describe, expect, it } from 'vitest';
 import { mockControl } from './control';
-import { askEventTimeReply, fixture, lutte, natation, placesReply, UNKNOWN_ID } from './fixture';
+import {
+  askEventTimeReply,
+  fanZoneMatinale,
+  fixture,
+  lutte,
+  natation,
+  placesReply,
+  UNKNOWN_ID,
+} from './fixture';
 
 const call = (path: string, init: RequestInit = {}) =>
   fetch(`http://localhost${path}`, {
@@ -160,4 +168,48 @@ describe('mockControl', () => {
     mockControl.reset();
     expect(await (await call('/api/disciplines')).json()).toEqual([lutte, natation]);
   });
+});
+
+describe('mock agenda API', () => {
+  it("003-AS1: lists the day's events sorted by start time, then by title", async () => {
+    const response = await call('/api/agenda?date=2026-11-08');
+    expect(response.status).toBe(200);
+    const agenda = dayAgendaSchema.parse(await response.json());
+    expect(agenda.map((event) => event.title)).toEqual([
+      'Fan zone matinale',
+      'Concert de la jeunesse',
+      'Démonstration de breaking',
+      'Nuit du mbalax',
+    ]);
+    expect(agenda[0]).toEqual(fanZoneMatinale);
+  });
+
+  it('003-AS3: returns an empty list for a Games day without events', async () => {
+    const response = await call('/api/agenda?date=2026-11-10');
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual([]);
+  });
+
+  it.each(['2026-10-30', '2026-11-14'])(
+    '003-AS5: refuses a day outside the Games (%s) with 422',
+    async (date) => {
+      const response = await call(`/api/agenda?date=${date}`);
+      expect(response.status).toBe(422);
+      expect(await response.json()).toMatchObject({
+        code: 'AGENDA_DATE_OUTSIDE_GAMES',
+        details: { date },
+      });
+    },
+  );
+
+  it.each(['?date=2026-13-45', '?date=demain', ''])(
+    '003-AS6: refuses an unreadable or missing date (%j) with 400',
+    async (query) => {
+      const response = await call(`/api/agenda${query}`);
+      expect(response.status).toBe(400);
+      const body = await response.json();
+      expect(body).toMatchObject({ code: 'VALIDATION_FAILED' });
+      expect(body.errors).toEqual([expect.objectContaining({ path: 'date' })]);
+    },
+  );
 });

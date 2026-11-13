@@ -1,4 +1,9 @@
-import type { ChatResponse, DisciplineResponse, PlaceSuggestion } from '@joj/shared';
+import type {
+  AgendaEventResponse,
+  ChatResponse,
+  DisciplineResponse,
+  PlaceSuggestion,
+} from '@joj/shared';
 
 /**
  * Les données de la fausse API, en mémoire. Les handlers les lisent et les modifient comme la
@@ -68,10 +73,64 @@ export const askEventTimeReply: ChatResponse = {
   missing: ['eventTime'],
 };
 
-const initial = (): { disciplines: DisciplineResponse[]; chatReply: ChatResponse } => ({
+/** Les animations du 8 novembre 2026 (heure de Dakar, UTC), dans le désordre comme en base. */
+export const fanZoneMatinale: AgendaEventResponse = {
+  id: '0199f5c2-0000-7000-8000-000000000207',
+  title: 'Fan zone matinale',
+  venue: 'Place de la Nation',
+  district: 'Colobane',
+  startsAt: '2026-11-08T10:00:00.000Z',
+  endsAt: '2026-11-08T13:00:00.000Z',
+};
+
+/** Même heure que le concert : le titre départage (« Concert » avant « Démonstration »). */
+export const breaking: AgendaEventResponse = {
+  id: '0199f5c2-0000-7000-8000-000000000208',
+  title: 'Démonstration de breaking',
+  venue: 'Esplanade du Grand Théâtre',
+  district: 'Plateau',
+  startsAt: '2026-11-08T15:00:00.000Z',
+  endsAt: '2026-11-08T16:30:00.000Z',
+};
+
+export const concertJeunesse: AgendaEventResponse = {
+  id: '0199f5c2-0000-7000-8000-000000000209',
+  title: 'Concert de la jeunesse',
+  venue: 'Place du Souvenir africain',
+  district: 'Fann',
+  startsAt: '2026-11-08T15:00:00.000Z',
+  endsAt: '2026-11-08T17:00:00.000Z',
+};
+
+/** Finit après minuit : elle reste dans l'agenda du 8. */
+export const nuitMbalax: AgendaEventResponse = {
+  id: '0199f5c2-0000-7000-8000-000000000210',
+  title: 'Nuit du mbalax',
+  venue: 'Monument de la Renaissance africaine',
+  district: 'Ouakam',
+  startsAt: '2026-11-08T22:00:00.000Z',
+  endsAt: '2026-11-09T01:00:00.000Z',
+};
+
+/** Le 7 novembre : n'apparaît jamais dans l'agenda du 8. */
+export const fanZonePlateau: AgendaEventResponse = {
+  id: '0199f5c2-0000-7000-8000-000000000206',
+  title: 'Fan zone du Plateau',
+  venue: "Place de l'Indépendance",
+  district: 'Plateau',
+  startsAt: '2026-11-07T10:00:00.000Z',
+  endsAt: '2026-11-07T19:00:00.000Z',
+};
+
+const initial = (): {
+  disciplines: DisciplineResponse[];
+  chatReply: ChatResponse;
+  agendaEvents: AgendaEventResponse[];
+} => ({
   disciplines: [{ ...lutte }, { ...natation }],
   // Ce que répond `POST /api/chat`, quel que soit le message : un test le remplace.
   chatReply: placesReply,
+  agendaEvents: [nuitMbalax, breaking, fanZonePlateau, concertJeunesse, fanZoneMatinale],
 });
 
 export const fixture = initial();

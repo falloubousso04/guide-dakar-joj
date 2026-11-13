@@ -1,6 +1,10 @@
 import {
+  type AgendaEventResponse,
   chatRequestSchema,
   createDisciplineSchema,
+  dayAgendaQuerySchema,
+  GAMES_FIRST_DAY,
+  GAMES_LAST_DAY,
   type DisciplineResponse,
   type ProblemDetails,
   updateDisciplineSchema,
@@ -70,6 +74,12 @@ const byName = (a: DisciplineResponse, b: DisciplineResponse) =>
 
 const findDiscipline = (id: string) => fixture.disciplines.find((d) => d.id === id);
 
+/** L'ordre de l'API : heure de début, puis titre sans tenir compte de la casse, puis id. */
+const byAgendaOrder = (a: AgendaEventResponse, b: AgendaEventResponse) =>
+  a.startsAt.localeCompare(b.startsAt) ||
+  a.title.localeCompare(b.title, 'fr', { sensitivity: 'accent' }) ||
+  a.id.localeCompare(b.id);
+
 export const handlers = [
   http.get('*/api/disciplines', async () => {
     const failure = await gate('GET', '/api/disciplines');
@@ -135,5 +145,26 @@ export const handlers = [
     const parsed = chatRequestSchema.safeParse(await request.json());
     if (!parsed.success) return validationFailed(parsed.error);
     return HttpResponse.json(fixture.chatReply);
+  }),
+
+  // Une animation appartient à la journée où elle commence (heure de Dakar, UTC).
+  http.get('*/api/agenda', async ({ request }) => {
+    const failure = await gate('GET', '/api/agenda');
+    if (failure) return failure;
+    const query = Object.fromEntries(new URL(request.url).searchParams);
+    const parsed = dayAgendaQuerySchema.safeParse(query);
+    if (!parsed.success) return validationFailed(parsed.error);
+    const { date } = parsed.data;
+    if (date < GAMES_FIRST_DAY || date > GAMES_LAST_DAY) {
+      return problem(
+        422,
+        'AGENDA_DATE_OUTSIDE_GAMES',
+        `${date} is not a day of the Games (from ${GAMES_FIRST_DAY} to ${GAMES_LAST_DAY})`,
+        { details: { date } },
+      );
+    }
+    return HttpResponse.json(
+      fixture.agendaEvents.filter((event) => event.startsAt.startsWith(date)).sort(byAgendaOrder),
+    );
   }),
 ];
