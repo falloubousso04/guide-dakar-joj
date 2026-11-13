@@ -1,0 +1,114 @@
+[
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000201",
+    "title": "Cérémonie d'ouverture en direct sur écran géant",
+    "venue": "Place de la Nation",
+    "district": "Colobane",
+    "starts_at": "2026-10-31T18:00:00.000Z",
+    "ends_at": "2026-10-31T22:00:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000202",
+    "title": "Fan zone de la Corniche",
+    "venue": "Corniche Ouest",
+    "district": "Fann",
+    "starts_at": "2026-11-01T10:00:00.000Z",
+    "ends_at": "2026-11-01T20:00:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000203",
+    "title": "Initiation à la lutte sénégalaise",
+    "venue": "Arène nationale",
+    "district": "Pikine",
+    "starts_at": "2026-11-02T16:00:00.000Z",
+    "ends_at": "2026-11-02T18:00:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000204",
+    "title": "Concert sabar et mbalax",
+    "venue": "Monument de la Renaissance africaine",
+    "district": "Ouakam",
+    "starts_at": "2026-11-03T20:00:00.000Z",
+    "ends_at": "2026-11-03T23:00:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000205",
+    "title": "Village des sports",
+    "venue": "Parc de Hann",
+    "district": "Hann",
+    "starts_at": "2026-11-05T09:00:00.000Z",
+    "ends_at": "2026-11-05T17:00:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000206",
+    "title": "Fan zone du Plateau",
+    "venue": "Place de l'Indépendance",
+    "district": "Plateau",
+    "starts_at": "2026-11-07T10:00:00.000Z",
+    "ends_at": "2026-11-07T19:00:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000207",
+    "title": "Fan zone matinale",
+    "venue": "Place de la Nation",
+    "district": "Colobane",
+    "starts_at": "2026-11-08T10:00:00.000Z",
+    "ends_at": "2026-11-08T13:00:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000208",
+    "title": "Démonstration de breaking",
+    "venue": "Esplanade du Grand Théâtre",
+    "district": "Plateau",
+    "starts_at": "2026-11-08T15:00:00.000Z",
+    "ends_at": "2026-11-08T16:30:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000209",
+    "title": "Concert de la jeunesse",
+    "venue": "Place du Souvenir africain",
+    "district": "Fann",
+    "starts_at": "2026-11-08T15:00:00.000Z",
+    "ends_at": "2026-11-08T17:00:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000210",
+    "title": "Nuit du mbalax",
+    "venue": "Monument de la Renaissance africaine",
+    "district": "Ouakam",
+    "starts_at": "2026-11-08T22:00:00.000Z",
+    "ends_at": "2026-11-09T01:00:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000211",
+    "title": "Course populaire des JOJ",
+    "venue": "Corniche Ouest",
+    "district": "Mermoz",
+    "starts_at": "2026-11-10T07:30:00.000Z",
+    "ends_at": "2026-11-10T10:00:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000212",
+    "title": "Fan zone de Diamniadio",
+    "venue": "Esplanade du Dakar Arena",
+    "district": "Diamniadio",
+    "starts_at": "2026-11-11T11:00:00.000Z",
+    "ends_at": "2026-11-11T20:00:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000213",
+    "title": "Festival des plages de Saly",
+    "venue": "Plage de Saly",
+    "district": "Saly Portudal",
+    "starts_at": "2026-11-12T16:00:00.000Z",
+    "ends_at": "2026-11-12T21:00:00.000Z"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000214",
+    "title": "Cérémonie de clôture en direct sur écran géant",
+    "venue": "Place de la Nation",
+    "district": "Colobane",
+    "starts_at": "2026-11-13T18:00:00.000Z",
+    "ends_at": "2026-11-13T22:00:00.000Z"
+  }
+]
