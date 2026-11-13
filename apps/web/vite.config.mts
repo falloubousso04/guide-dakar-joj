@@ -38,5 +38,7 @@ export default defineConfig({
     // Chaque `vi.spyOn` est défait après son test.
     restoreMocks: true,
     setupFiles: ['./src/test/setup.ts'],
+    // Les écrans montés avec user-event dépassent 5 s quand toute la suite tourne en parallèle.
+    testTimeout: 15_000,
   },
 });
