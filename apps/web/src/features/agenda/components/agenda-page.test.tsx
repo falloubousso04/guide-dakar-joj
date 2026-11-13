@@ -4,7 +4,7 @@
  */
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, onTestFinished, vi } from 'vitest';
 import { mockControl } from '@/mocks/control';
 import { renderRoute } from '@/test/utils';
 import { defaultAgendaDay, GAMES_DAYS } from './games-days';
@@ -96,5 +96,27 @@ describe('AgendaPage', () => {
       'Cette journée n’est pas pendant les Jeux. Choisissez une journée entre le 31 octobre et le 13 novembre.',
     );
     expect(screen.getByLabelText('Journée')).toBeEnabled();
+  });
+
+  it('003-AS7: ignores a day outside the Games in the address and opens the default day', async () => {
+    // Aujourd'hui = le 8 novembre, donc journée par défaut = le 8. Seul `Date` est figé : les
+    // minuteries restent réelles pour la fausse API et Testing Library.
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date('2026-11-08T09:00:00Z'));
+    onTestFinished(() => {
+      vi.useRealTimers();
+    });
+
+    await open('2026-11-14');
+
+    expect(await screen.findByLabelText('Journée')).toHaveValue('2026-11-08');
+    const items = within(await eventList()).getAllByRole('listitem');
+    expect(items.map((item) => item.getAttribute('aria-label'))).toEqual([
+      'Fan zone matinale',
+      'Concert de la jeunesse',
+      'Démonstration de breaking',
+      'Nuit du mbalax',
+    ]);
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 });
