@@ -10,6 +10,7 @@ const validProps = {
   district: 'Plateau',
   visitMinutes: 60,
   travelMinutes: { dakar: 15, diamniadio: 60, saly: 90 } as const,
+  location: null,
 };
 
 describe('Place', () => {
@@ -26,6 +27,7 @@ describe('Place', () => {
       district: 'Loin',
       visitMinutes: 180,
       travelMinutes: { dakar: 90, diamniadio: 90, saly: 90 },
+      location: null,
     });
     const backAt = place.returnTime('diamniadio', NOW);
     expect(backAt).toEqual(new Date('2026-07-15T17:30:00.000Z'));
@@ -38,6 +40,7 @@ describe('Place', () => {
       district: 'Centre',
       visitMinutes: 210,
       travelMinutes: { dakar: 60, diamniadio: 60, saly: 60 },
+      location: null,
     });
     const backAt = place.returnTime('diamniadio', NOW);
     expect(backAt).toEqual(new Date('2026-07-15T17:00:00.000Z'));

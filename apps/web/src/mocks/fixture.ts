@@ -33,6 +33,7 @@ const soumbedioune: PlaceSuggestion = {
   visitMinutes: 60,
   travelMinutes: 50,
   backAt: '2026-11-07T14:10:00.000Z',
+  location: { latitude: 14.6786, longitude: -17.4637 },
 };
 
 const lacRose: PlaceSuggestion = {
@@ -42,6 +43,7 @@ const lacRose: PlaceSuggestion = {
   visitMinutes: 90,
   travelMinutes: 40,
   backAt: '2026-11-07T14:20:00.000Z',
+  location: { latitude: 14.8386, longitude: -17.2314 },
 };
 
 const museeCivilisations: PlaceSuggestion = {
@@ -51,6 +53,7 @@ const museeCivilisations: PlaceSuggestion = {
   visitMinutes: 90,
   travelMinutes: 45,
   backAt: '2026-11-07T14:30:00.000Z',
+  location: null,
 };
 
 /** La réponse par défaut de `POST /api/chat` : trois lieux proposés. */

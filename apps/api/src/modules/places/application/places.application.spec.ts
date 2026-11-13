@@ -3,13 +3,20 @@ import { Place } from '../domain/place';
 import { InMemoryPlaceRepository } from './testing/in-memory-place.repository';
 import { FindReachablePlaces } from './use-cases/find-reachable-places';
 
-function makePlace(id: string, name: string, visitMinutes: number, travel: number) {
+function makePlace(
+  id: string,
+  name: string,
+  visitMinutes: number,
+  travel: number,
+  location: { latitude: number; longitude: number } | null = null,
+) {
   return Place.create({
     id,
     name,
     district: 'Dakar',
     visitMinutes,
     travelMinutes: { dakar: travel, diamniadio: travel, saly: travel },
+    location,
   });
 }
 
@@ -97,5 +104,33 @@ describe('FindReachablePlaces', () => {
     const results = await useCase.find({ site: 'diamniadio', now: NOW, eventTime });
 
     expect(results).toHaveLength(0);
+  });
+
+  it('002-AS1: returns the location of each suggested place', async () => {
+    const location = { latitude: 14.6937, longitude: -17.4441 };
+    const repo = new InMemoryPlaceRepository([
+      makePlace('0199f5c2-0000-7000-8000-000000000001', 'Village des Arts', 60, 30, location),
+    ]);
+    const useCase = new FindReachablePlaces(repo);
+
+    const results = await useCase.find({ site: 'diamniadio', now: NOW, eventTime: EVENT_TIME });
+
+    expect(results[0]?.location).toEqual(location);
+  });
+
+  it('002-AS4: proposes a place without location in the same order as the others', async () => {
+    const repo = new InMemoryPlaceRepository([
+      makePlace('0199f5c2-0000-7000-8000-000000000002', 'Sans emplacement', 30, 30), // 90 min
+      makePlace('0199f5c2-0000-7000-8000-000000000001', 'Avec emplacement', 60, 30, {
+        latitude: 14.7,
+        longitude: -17.4,
+      }), // 120 min
+    ]);
+    const useCase = new FindReachablePlaces(repo);
+
+    const results = await useCase.find({ site: 'diamniadio', now: NOW, eventTime: EVENT_TIME });
+
+    expect(results.map((place) => place.name)).toEqual(['Sans emplacement', 'Avec emplacement']);
+    expect(results[0]?.location).toBeNull();
   });
 });

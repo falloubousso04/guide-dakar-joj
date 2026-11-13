@@ -1,6 +1,6 @@
 # 002 — Voir le lieu sur la carte
 
-**Statut** : Validée
+**Statut** : Implémentée
 **PRD** : specs/prd-guide-dakar.md, TR4
 
 ## Contexte

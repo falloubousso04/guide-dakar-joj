@@ -23,6 +23,7 @@ const goree: PlaceSuggestion = {
   visitMinutes: 120,
   travelMinutes: 75,
   backAt: '2026-11-07T16:00:00.000Z',
+  location: null,
 };
 
 const message = {

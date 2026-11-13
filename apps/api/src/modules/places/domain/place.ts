@@ -1,4 +1,4 @@
-import type { OlympicSite } from '@joj/shared';
+import type { Location, OlympicSite } from '@joj/shared';
 import { PlaceError } from './place.errors';
 
 export interface PlaceProps {
@@ -7,6 +7,7 @@ export interface PlaceProps {
   district: string;
   visitMinutes: number;
   travelMinutes: Record<OlympicSite, number>;
+  location: Location | null;
 }
 
 export class Place {
@@ -54,5 +55,9 @@ export class Place {
 
   get travelMinutes(): Record<OlympicSite, number> {
     return this.props.travelMinutes;
+  }
+
+  get location(): Location | null {
+    return this.props.location;
   }
 }

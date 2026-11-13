@@ -1,6 +1,7 @@
 import type { PlaceSuggestion } from '@joj/shared';
 import { CheckIcon, ClockIcon, PinIcon, RouteIcon } from '@/components/icons';
 import { formatClock, formatDuration } from './format';
+import { PlaceMapLink } from './place-map-link';
 
 // Une bande de couleur olympique par carte, dans l'ordre des anneaux : bleu, jaune, noir, vert, rouge.
 const BANDS = [
@@ -47,10 +48,13 @@ export function PlaceCard({ place, index }: { place: PlaceSuggestion; index: num
           </div>
         </dl>
         {/* Texte blanc sur le vert foncé des JOJ : contraste suffisant (AA). */}
-        <p className="mt-auto inline-flex items-center gap-2 self-start rounded-full bg-joj-green px-3 py-1.5 text-sm font-bold text-white">
-          <CheckIcon className="size-4" />
-          Retour au site à <time dateTime={place.backAt}>{formatClock(place.backAt)}</time>
-        </p>
+        <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2">
+          <p className="inline-flex items-center gap-2 self-start rounded-full bg-joj-green px-3 py-1.5 text-sm font-bold text-white">
+            <CheckIcon className="size-4" />
+            Retour au site à <time dateTime={place.backAt}>{formatClock(place.backAt)}</time>
+          </p>
+          <PlaceMapLink location={place.location} />
+        </div>
       </div>
     </li>
   );

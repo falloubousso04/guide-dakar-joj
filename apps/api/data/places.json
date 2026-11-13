@@ -4,62 +4,116 @@
     "name": "Marché Kermel",
     "district": "Plateau",
     "visit_minutes": 60,
-    "travel_minutes": { "dakar": 15, "diamniadio": 60, "saly": 90 }
+    "travel_minutes": {
+      "dakar": 15,
+      "diamniadio": 60,
+      "saly": 90
+    },
+    "latitude": 14.6717,
+    "longitude": -17.4337
   },
   {
     "id": "0199f5c2-0000-7000-8000-000000000002",
     "name": "IFAN Musée de l'Homme",
     "district": "Plateau",
     "visit_minutes": 90,
-    "travel_minutes": { "dakar": 10, "diamniadio": 65, "saly": 95 }
+    "travel_minutes": {
+      "dakar": 10,
+      "diamniadio": 65,
+      "saly": 95
+    },
+    "latitude": 14.6699,
+    "longitude": -17.4289
   },
   {
     "id": "0199f5c2-0000-7000-8000-000000000003",
     "name": "Village des Arts",
     "district": "Liberté 6",
     "visit_minutes": 75,
-    "travel_minutes": { "dakar": 20, "diamniadio": 70, "saly": 100 }
+    "travel_minutes": {
+      "dakar": 20,
+      "diamniadio": 70,
+      "saly": 100
+    },
+    "latitude": 14.7131,
+    "longitude": -17.4693
   },
   {
     "id": "0199f5c2-0000-7000-8000-000000000004",
     "name": "Monument de la Renaissance Africaine",
     "district": "Ouakam",
     "visit_minutes": 45,
-    "travel_minutes": { "dakar": 25, "diamniadio": 75, "saly": 105 }
+    "travel_minutes": {
+      "dakar": 25,
+      "diamniadio": 75,
+      "saly": 105
+    },
+    "latitude": 14.7202,
+    "longitude": -17.4906
   },
   {
     "id": "0199f5c2-0000-7000-8000-000000000005",
     "name": "Plage de N'Gor",
     "district": "N'Gor",
     "visit_minutes": 90,
-    "travel_minutes": { "dakar": 30, "diamniadio": 80, "saly": 45 }
+    "travel_minutes": {
+      "dakar": 30,
+      "diamniadio": 80,
+      "saly": 45
+    },
+    "latitude": 14.7507,
+    "longitude": -17.5185
   },
   {
     "id": "0199f5c2-0000-7000-8000-000000000006",
     "name": "Île de Gorée",
     "district": "Gorée",
     "visit_minutes": 180,
-    "travel_minutes": { "dakar": 40, "diamniadio": 90, "saly": 120 }
+    "travel_minutes": {
+      "dakar": 40,
+      "diamniadio": 90,
+      "saly": 120
+    },
+    "latitude": 14.6672,
+    "longitude": -17.3981
   },
   {
     "id": "0199f5c2-0000-7000-8000-000000000007",
     "name": "Lac Rose",
     "district": "Sangalkam",
     "visit_minutes": 160,
-    "travel_minutes": { "dakar": 60, "diamniadio": 85, "saly": 150 }
+    "travel_minutes": {
+      "dakar": 60,
+      "diamniadio": 85,
+      "saly": 150
+    },
+    "latitude": 14.8394,
+    "longitude": -17.2316
   },
   {
     "id": "0199f5c2-0000-7000-8000-000000000008",
     "name": "Centre de pêche artisanale de Yoff",
     "district": "Yoff",
     "visit_minutes": 210,
-    "travel_minutes": { "dakar": 60, "diamniadio": 90, "saly": 60 }
+    "travel_minutes": {
+      "dakar": 60,
+      "diamniadio": 90,
+      "saly": 60
+    },
+    "latitude": 14.7511,
+    "longitude": -17.475
   },
   {
     "id": "0199f5c2-0000-7000-8000-000000000009",
     "name": "Parc de Hann",
     "district": "Hann",
     "visit_minutes": 240,
-    "travel_minutes": { "dakar": 90, "diamniadio": 90, "saly": 120 }
+    "travel_minutes": {
+      "dakar": 90,
+      "diamniadio": 90,
+      "saly": 120
+    },
+    "latitude": 14.7232,
+    "longitude": -17.4285
   }
 ]

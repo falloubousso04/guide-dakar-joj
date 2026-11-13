@@ -13,6 +13,10 @@ export function toDomain(row: PlaceRow): Place {
     district: row.district,
     visitMinutes: row.visitMinutes,
     travelMinutes,
+    location:
+      row.latitude !== null && row.longitude !== null
+        ? { latitude: row.latitude, longitude: row.longitude }
+        : null,
   });
 }
 
@@ -23,5 +27,7 @@ export function toRow(place: Place): PlaceRow {
     district: place.district,
     visitMinutes: place.visitMinutes,
     travelMinutes: place.travelMinutes,
+    latitude: place.location?.latitude ?? null,
+    longitude: place.location?.longitude ?? null,
   };
 }
