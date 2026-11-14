@@ -36,7 +36,7 @@ Le PRD du groupe est dans [specs/prd-guide-dakar.md](specs/prd-guide-dakar.md). 
 | TR2     | Le chatbot tient compte des envies                          | –                                       | à venir        |
 | TR3     | Ce qui se passe maintenant : les animations dans le chatbot | –                                       | à venir        |
 
-`pnpm check` (format, lint, types, 256 tests, build) est vert, et `pnpm spec:check specs/<spec> --trace` montre le test de chaque scénario.
+`pnpm check` (format, lint, types, 257 tests, build) est vert, et `pnpm spec:check specs/<spec> --trace` montre le test de chaque scénario.
 
 ## L'équipe
 
