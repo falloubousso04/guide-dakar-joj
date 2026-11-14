@@ -28,13 +28,13 @@ Projet de groupe de l'atelier C du bootcamp Claude Code (thème **Guide touristi
 
 Le PRD du groupe est dans [specs/prd-guide-dakar.md](specs/prd-guide-dakar.md). Chaque tranche suit la méthode du bootcamp : spec, plan, code en TDD, puis `/converge` avec un relecteur indépendant.
 
-| Tranche | Ce qu'on livre                                              | Spec                                    | État                                     |
-| ------- | ----------------------------------------------------------- | --------------------------------------- | ---------------------------------------- |
-| TR1     | Demander au chatbot quoi faire avant son épreuve            | [001](specs/001-chatbot-lieux/spec.md)  | ✅ Implémentée                           |
-| TR4     | Voir le lieu sur la carte                                   | [002](specs/002-carte-lieu/spec.md)     | ✅ Implémentée                           |
-| TR5     | L'agenda de la journée                                      | [003](specs/003-agenda-journee/spec.md) | 🟡 livrée, une correction (T08) en cours |
-| TR2     | Le chatbot tient compte des envies                          | –                                       | à venir                                  |
-| TR3     | Ce qui se passe maintenant : les animations dans le chatbot | –                                       | à venir                                  |
+| Tranche | Ce qu'on livre                                              | Spec                                    | État           |
+| ------- | ----------------------------------------------------------- | --------------------------------------- | -------------- |
+| TR1     | Demander au chatbot quoi faire avant son épreuve            | [001](specs/001-chatbot-lieux/spec.md)  | ✅ Implémentée |
+| TR4     | Voir le lieu sur la carte                                   | [002](specs/002-carte-lieu/spec.md)     | ✅ Implémentée |
+| TR5     | L'agenda de la journée                                      | [003](specs/003-agenda-journee/spec.md) | ✅ Implémentée |
+| TR2     | Le chatbot tient compte des envies                          | –                                       | à venir        |
+| TR3     | Ce qui se passe maintenant : les animations dans le chatbot | –                                       | à venir        |
 
 `pnpm check` (format, lint, types, 256 tests, build) est vert, et `pnpm spec:check specs/<spec> --trace` montre le test de chaque scénario.
 
@@ -45,7 +45,7 @@ Le PRD du groupe est dans [specs/prd-guide-dakar.md](specs/prd-guide-dakar.md). 
 | Fallou Bousso             | le PRD, les contrats, l'intégration de Claude, la refonte du design, l'intégration finale |
 | `yandeG-dev`              | les lieux et la règle de temps, puis « Voir sur la carte »                                |
 | `taphsirabdoulaye-source` | l'API du chatbot, puis l'agenda (API et écran)                                            |
-| `aminousy`                | l'écran du chatbot, puis les corrections de l'agenda                                      |
+| `aminousy`                | l'écran du chatbot, puis la fausse API et les corrections de l'agenda                     |
 
 La répartition et les règles de travail sont dans [ORGANISATION.md](ORGANISATION.md) (tranche 1) et [NOUVELLES-FONCTIONNALITES.md](NOUVELLES-FONCTIONNALITES.md) (tranches 4 et 5).
 

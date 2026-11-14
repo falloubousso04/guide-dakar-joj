@@ -1,6 +1,6 @@
 # 003 — L'agenda de la journée
 
-**Statut** : Validée
+**Statut** : Implémentée
 **PRD** : specs/prd-guide-dakar.md, TR5
 
 ## Contexte
